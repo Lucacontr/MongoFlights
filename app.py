@@ -9,21 +9,11 @@ app = Flask(__name__)
 @app.route('/')
 def index():  # put application's code here
 
-    client = pymongo.MongoClient("localhost:27017")
-    db = client.get_database("Flights")
-    collection = db.get_collection("Flights")
-    # requesting = []
-    #
-    # with open(r"") as f:
-    #     for jsonObj in f:
-    #         myDict = json.loads(jsonObj)
-    #         requesting.append(InsertOne(myDict))
-    #
-    # result = collection.bulk_write(requesting)
-    # client.close()
     try:
-        client.admin.command('ping')
-        print("Pinged your deployment. You successfully connected to MongoDB!")
+        client = pymongo.MongoClient("localhost:27017")
+        db = client.get_database("Flights")
+        collection = db.get_collection("Flights")
+        print(collection.__str__())
     except Exception as e:
         print(e)
     return render_template("index.html")
