@@ -5,15 +5,20 @@ from pymongo import MongoClient, InsertOne
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def index():  # put application's code here
-
     try:
         client = pymongo.MongoClient("localhost:27017")
         db = client.get_database("Flights")
-        collection = db.get_collection("Flights")
-        print(collection.__str__())
+        collection = db.get_collection("Airports")
+        # print(collection.__str__())
+
+        query = {"state": "AK"}
+        results = collection.find(query)
+
+        # Stampa i risultati
+        for result in results:
+            print(result)
     except Exception as e:
         print(e)
     return render_template("index.html")
