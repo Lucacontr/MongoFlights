@@ -80,7 +80,7 @@ ul {
 }
 
 .rounded-0 {
-    border-radius: 20px!important; 
+    border-radius: 20px!important;
 }
 
 .bg-white {
@@ -193,27 +193,13 @@ ul {
     border-bottom: 0px solid!important;
 }
 
-.wrapper .form-control {
-    outline: none;
-    border: none;
-    border: 2px solid #008cfe!important;
-    border-radius: 20px;
-    margin-right: 1em;
-    margin-left: 1em;
-    color: darkgray;
-}
 
-.wrapper .form-control:focus {
-    box-shadow: none;
-}
 
-.wrapper input[type="text"]:focus::placeholder {
-    color: transparent
-}
+
 
 label {
     margin-bottom: 0!important;
-    font-size: 1.65em;
+    font-size: 1em;
 }
 
 .toright{
@@ -290,7 +276,7 @@ input[type="date"] {
         margin: 10px;
     }
 
-    .wrapper form {
+    .wrapper {
         padding: 20px;
     }
 
@@ -330,14 +316,6 @@ h1 {
     border-left: 10px solid #4c9bf0;
     padding-left: 10px;
     margin-bottom: 30px;
-}
-
-.row {
-    overflow: hidden;
-    margin-left: 10em!important;
-    margin-right: 10em!important;
-    margin-top: 1.5em!important;
-    margin-bottom: 1em!important;
 }
 
 .card {
