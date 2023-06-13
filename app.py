@@ -1,5 +1,6 @@
 import json
-
+from bson.json_util import loads
+from bson.errors import BSONError
 import bson
 from bson import ObjectId
 from flask import Flask, render_template, request
@@ -8,7 +9,7 @@ import pymongo
 app = Flask(__name__)
 try:
     client = pymongo.MongoClient("localhost:27017")
-    db = client["FlightsDB"]
+    db = client["Flights"]
     flights_collection = db.get_collection("Flights")
     airports_collection = db.get_collection("Airports")
     airlines_collection = db.get_collection("Airlines")
@@ -20,6 +21,10 @@ except Exception as e:
 def index():  # put application's code here
     return render_template("query.html")
 
+
+@app.route('/query')
+def query():  # put application's code here
+    return render_template("query.html")
 
 @app.route("/insert")
 def insert():
@@ -39,8 +44,6 @@ def departure():
 @app.route("/airports")
 def airports():
     airports = list(airports_collection.find())
-    for result in airports:
-        print(result)
 
     return render_template("airports.html", airports=airports, airports_size=len(airports))
 
@@ -48,16 +51,12 @@ def airports():
 @app.route("/airlines")
 def airlines():
     airlines = list(airlines_collection.find())
-    for result in airlines:
-        print(result)
 
-    return render_template("airlines.html", airlines=airlines)
+    return render_template("airlines.html", airlines=airlines, airlines_size=len(airlines))
 
 
 @app.route('/insertFlight', methods=['POST'])
 def insertFlight():
-    for key, value in request.form.items():
-        print(f"Field: {key} - Value: {value}")
 
     document = {
         "YEAR": int(request.form.get("Year").__str__()),
@@ -75,8 +74,6 @@ def insertFlight():
 
 @app.route('/insertAirport', methods=['POST'])
 def insertAirport():
-    for key, value in request.form.items():
-        print(f"Field: {key} - Value: {value}")
 
     document = {
         "IATA_CODE": request.form.get("IATA_CODE"),
@@ -92,8 +89,6 @@ def insertAirport():
 
 @app.route('/insertAirline', methods=['POST'])
 def insertAirline():
-    for key, value in request.form.items():
-        print(f"Field: {key} - Value: {value}")
 
     document = {
         "IATA_CODE": request.form.get("IATA_CODE"),
@@ -126,8 +121,6 @@ def departureSearch():
 
     # Execute the query
     flights = list(flights_collection.find(query))
-    # for document in flights:
-    #     print(document)
 
     if len(flights) == 0:
         return render_template("departure.html", message="No flights matched the given parameters")
@@ -135,34 +128,105 @@ def departureSearch():
         return render_template("departure.html", flights=flights, flights_size=len(flights))
 
 
-@app.route('/queryDB', methods=['POST'])
-def queryDB():
+@app.route('/queryFlights', methods=['POST'])
+def queryFlights():
     query = request.form.get("Query").__str__()
-    flights = list(flights_collection.find(json.loads(query)))
-    if len(flights) == 0:
-        return render_template("query.html", message="No flights matched the given query")
+    try:
+        parsed_query = loads(query)
+    except (BSONError, ValueError) as e:
+        print('Invalid query:', e)
+        return render_template("query.html", message="Invalid Query")
     else:
-        if len(flights) > 100:
-            flights = flights[0:299]
-        return render_template("query.html", flights=flights, flights_size=len(flights))
+        if flights_collection.count_documents(parsed_query) == 0:
+            return render_template("query.html", message="No document match the given query")
+        else:
+            result = list(flights_collection.find(parsed_query))
+            if len(result) > 100:
+                result = result[0:299]
+            return render_template("query.html", flights=result, flights_size=len(result))
 
-    return render_template("query.html")
-
-
-@app.route('/deleteDocument', methods=['POST'])
-def deleteDocument():
-
-    ID = request.form.get("ID").__str__()
-    if not bson.objectid.ObjectId.is_valid(ID):
-        return render_template("delete.html", message="Invalid ID")
-    result = flights_collection.remove({'_id': ObjectId(ID)})
-
-    if result['n'] == 0:
-        return render_template("delete.html", message="No document match the given ID")
+@app.route('/queryAirports', methods=['POST'])
+def queryAirports():
+    query = request.form.get("Query").__str__()
+    try:
+        parsed_query = loads(query)
+    except (BSONError, ValueError) as e:
+        print('Invalid query:', e)
+        return render_template("query.html", message="Invalid Query")
     else:
-        return render_template("delete.html", message="Document deleted successfully")
+        if airports_collection.count_documents(parsed_query) == 0:
+            return render_template("query.html", message="No document match the given query")
+        else:
+            result = list(airports_collection.find(parsed_query))
+            if len(result) > 100:
+                result = result[0:299]
+            return render_template("query.html", airports=result, airports_size=len(result))
 
-    return render_template("delete.html")
+@app.route('/queryAirlines', methods=['POST'])
+def queryAirlines():
+    query = request.form.get("Query").__str__()
+    try:
+        parsed_query = loads(query)
+    except (BSONError, ValueError) as e:
+        print('Invalid query:', e)
+        return render_template("query.html", message="Invalid Query")
+    else:
+        if airlines_collection.count_documents(parsed_query) == 0:
+            return render_template("query.html", message="No document match the given query")
+        else:
+            result = list(airlines_collection.find(parsed_query))
+            if len(result) > 100:
+                result = result[0:299]
+            return render_template("query.html", airlines=result, airlines_size=len(result))
+
+
+@app.route('/deleteFlight', methods=['POST'])
+def deleteFlight():
+    query = request.form.get("query").__str__()
+    try:
+        parsed_query = loads(query)
+    except (BSONError, ValueError) as e:
+        print('Invalid query:', e)
+        return render_template("delete.html", message="Invalid Query")
+    else:
+        # Perform a sample find operation to validate the query
+        result = flights_collection.delete_many(parsed_query)
+        if result.deleted_count == 0:
+            return render_template("delete.html", message="No document match the given query")
+        else:
+            return render_template("delete.html", message="Document deleted successfully")
+
+@app.route('/deleteAirport', methods=['POST'])
+def deleteAirport():
+    query = request.form.get("query").__str__()
+    try:
+        parsed_query = loads(query)
+    except (BSONError, ValueError) as e:
+        print('Invalid query:', e)
+        return render_template("delete.html", message="Invalid Query")
+    else:
+        # Perform a sample find operation to validate the query
+        result = airports_collection.delete_many(parsed_query)
+        if result.deleted_count == 0:
+            return render_template("delete.html", message="No document match the given query")
+        else:
+            return render_template("delete.html", message="Document deleted successfully")
+
+@app.route('/deleteAirline', methods=['POST'])
+def deleteAirline():
+    query = request.form.get("query").__str__()
+    try:
+        parsed_query = loads(query)
+    except (BSONError, ValueError) as e:
+        print('Invalid query:', e)
+        return render_template("delete.html", message="Invalid Query")
+    else:
+        # Perform a sample find operation to validate the query
+        result = airlines_collection.delete_many(parsed_query)
+        if result.deleted_count == 0:
+            return render_template("delete.html", message="No document match the given query")
+        else:
+            return render_template("delete.html", message="Document deleted successfully")
 
 
 if __name__ == '__main__':

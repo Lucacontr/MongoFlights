@@ -8,8 +8,24 @@
   </head>
 
   <body>
+
+  <script>
+      $(document).ready(function() {
+          $('input[type="radio"]').change(function() {
+            // Ottieni il valore del radio button selezionato
+            var selectedOption = $('input[name="options"]:checked').val();
+            $('#formQuery1').hide();
+            $('#formQuery2').hide();
+            $('#formQuery3').hide();
+
+            // Mostra il contenuto corrispondente all'opzione selezionata
+            $('#formQuery' + selectedOption).show();
+          });
+        });
+  </script>
+
     <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href={{url_for("query")}}>
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
             FlightsDB
         </a>
@@ -27,12 +43,33 @@
             </div>
         </div>
     </nav>
+    <br><br>
+    <div class="btn-group">
+        <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" checked />
+        <label class="btn btn-secondary" for="1">Flights</label>
 
+        <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off" />
+        <label class="btn btn-secondary" for="2">Airports</label>
+
+        <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" />
+        <label class="btn btn-secondary" for="3">Airlines</label>
+    </div>
+    <br><br>
     <div class="form-outline bg-black border rounded-5 text-center">
-        <form id="formQuery" method="POST">
-          <input type="text" id="ID" name="ID" class="form-control" />
-          <label class="form-label" for="Query">{field : 'value'}</label>
-          <input type="submit" formaction="/deleteDocument" class="btn btn-primary btn-block mb-4">
+        <form id="formQuery1" method="POST">
+          <input type="text" id="query" name="query" class="form-control" />
+          <label class="form-label" for="query">{"field" : "value"}</label>
+          <input type="submit" formaction="/deleteFlight" class="btn btn-primary btn-block mb-4">
+        </form>
+        <form id="formQuery2" method="POST" style="display:none;">
+          <input type="text" id="query" name="query" class="form-control" />
+          <label class="form-label" for="query">{"field" : "value"}</label>
+          <input type="submit" formaction="/deleteAirport" class="btn btn-primary btn-block mb-4">
+        </form>
+        <form id="formQuery3" method="POST" style="display:none;">
+          <input type="text" id="query" name="query" class="form-control" />
+          <label class="form-label" for="query">{"field" : "value"}</label>
+          <input type="submit" formaction="/deleteAirline" class="btn btn-primary btn-block mb-4">
         </form>
         <h3> {{ message }}</h3>
     </div>
