@@ -10,8 +10,6 @@
   <body>
   <script>
       $(document).ready(function() {
-
-
           $('input[type="radio"]').change(function() {
             // Ottieni il valore del radio button selezionato
             var selectedOption = $('input[name="options"]:checked').val();
@@ -24,6 +22,7 @@
           });
         });
   </script>
+
     <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
         <a class="navbar-brand" href="#">
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -67,7 +66,6 @@
             <section class="pb-4">
               <div class="forms">
                   <section class="w-100 p-4 text-center pb-4">
-
 
 
                     <form id="content1" method="POST">
@@ -121,7 +119,6 @@
                     </form>
 
 
-
                      <form id="content2" method="POST" style="display:none;">
                       <div class="row mb-4">
                         <div class="col">
@@ -159,10 +156,6 @@
                       <!-- Submit button -->
                       <input type="submit" formaction="insertAirport" class="btn btn-primary btn-block mb-4">
                     </form>
-
-
-
-
 
 
                      <form id="content3" method="POST" style="display:none;">

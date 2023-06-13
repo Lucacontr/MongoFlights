@@ -8,25 +8,53 @@ app = Flask(__name__)
 def index():  # put application's code here
     return render_template("index.html")
 
+
 @app.route("/insert")
 def insert():
     return render_template("insert.html")
+
 
 @app.route("/delete")
 def delete():
     return render_template("delete.html")
 
+
 @app.route("/departure")
 def departure():
     return render_template("departure.html")
 
+
 @app.route("/airports")
 def airports():
-    return render_template("airports.html")
+    try:
+        client = pymongo.MongoClient("localhost:27017")
+        db = client["FlightsDB"]
+        collection = db.get_collection("Airports")
+
+        airports = list(collection.find())
+        for result in airports:
+            print(result)
+
+    except Exception as e:
+        print(e.with_traceback())
+    return render_template("airports.html", airports=airports, airports_size=len(airports))
+
 
 @app.route("/airlines")
 def airlines():
-    return render_template("airlines.html")
+    try:
+        client = pymongo.MongoClient("localhost:27017")
+        db = client["FlightsDB"]
+        collection = db.get_collection("Airlines")
+
+        airlines = list(collection.find())
+        for result in airlines:
+            print(result)
+
+    except Exception as e:
+        print(e.with_traceback())
+    return render_template("airlines.html", airlines=airlines)
+
 
 @app.route('/insertFlight', methods=['POST'])
 def insertFlight():
@@ -54,6 +82,7 @@ def insertFlight():
         print(e.with_traceback())
     return render_template("insert.html")
 
+
 @app.route('/insertAirport', methods=['POST'])
 def insertAirport():
     for key, value in request.form.items():
@@ -78,9 +107,9 @@ def insertAirport():
         print(e)
     return render_template("insert.html")
 
+
 @app.route('/insertAirline', methods=['POST'])
 def insertAirline():
-
     for key, value in request.form.items():
         print(f"Field: {key} - Value: {value}")
 
@@ -134,6 +163,7 @@ def departureSearch():
     except Exception as e:
         print(e.with_traceback())
     return render_template("departure.html")
+
 
 
 if __name__ == '__main__':
