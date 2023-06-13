@@ -101,5 +101,40 @@ def insertAirline():
 
     return render_template("insert.html")
 
+@app.route('/departureSearch', methods=['POST'])
+def departureSearch():
+
+    try:
+        client = pymongo.MongoClient("localhost:27017")
+        db = client["Flights"]
+        collection = db.get_collection("Flights")
+        arrayAnd = []
+
+        if request.form.get("Year") != "":
+            arrayAnd.append({"YEAR": int(request.form.get("Year").__str__())})
+        if request.form.get("Month") != "":
+            arrayAnd.append({"MONTH": int(request.form.get("Month").__str__())})
+        if request.form.get("Day") != "":
+            arrayAnd.append({"DAY": int(request.form.get("Day").__str__())})
+        if request.form.get("Origin") != "":
+            arrayAnd.append({"ORIGIN_AIRPORT": request.form.get("Origin").__str__()})
+        if request.form.get("Destination") != "":
+            arrayAnd.append({"DESTINATION_AIRPORT": request.form.get("Destination").__str__()})
+
+        print(arrayAnd)
+
+        query = {'$and': arrayAnd}
+
+        # Execute the query
+        result = collection.find(query)
+
+        # Print the matching documents
+        for document in result:
+            print(document)
+    except Exception as e:
+        print(e.with_traceback())
+    return render_template("departure.html")
+
+
 if __name__ == '__main__':
     app.run()

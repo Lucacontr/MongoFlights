@@ -1,28 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Insert</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="static\fromStyle.css">
+<html>
+  <head>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js" integrity="sha512-0RxGTiFXp36+bSbJM+/QSTl1LDQ4pHdDZ8Ua9ZXl454qKSsYu228AOLHYfzx/rm4Dm6I+176ETRF55DpvrHTgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.dark.min.css" integrity="sha512-Mpz/GtaUBKNAwsccAGeJSLOv9Q3kcQOI2ZOHKdANxNaYGOxrejgFed1FJbSMsxNahsPNiGVbIPY4ud+p8u90VA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+      <title>Document insertion</title>
+  </head>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/web3@0.20.6/dist/web3.min.js"></script>
-    	<!-- Google font -->
-	  <link href="https://fonts.googleapis.com/css?family=PT+Sans:400" rel="stylesheet">
-
-  	<!-- Bootstrap -->
-  	<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
-
-  	<!-- Custom stlylesheet -->
-  	<link type="text/css" rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-<nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
+  <body>
+    <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
         <a class="navbar-brand" href="#">
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
             FlightsDB
@@ -37,39 +23,64 @@
               <a class="nav-item nav-link active" href={{url_for("departure")}}>Departure/Destination</a>
               <a class="nav-item nav-link active" href={{url_for("airports")}}>Airports</a>
               <a class="nav-item nav-link active" href={{url_for("airlines")}}>Airlines</a>
-
             </div>
         </div>
     </nav>
 
-
     <div id="searchFlight" class="searchFlight">
-      <div class="mytitle">
-        <label>FlightsDB</label>
-      </div>
-      <div id="mytitle2" class="mytitle2">
-        <label>Insert your query</label>
-      </div>
-      <div class="wrapper bg-white">
-          <div class="form-group d-sm-flex margin">
-              <div class="d-flex align-items-center flex-fill me-sm1 my-sm-0 border-bottom position-relative">
-                  <input type="text" id="query" required placeholder="Query" class="form-control">
+
+          <div class="bg-black border rounded-5">
+
+            <section class="pb-4">
+              <div class="forms">
+                  <section class="w-100 p-4 text-center pb-4">
+
+                    <form id="content1" method="POST">
+                      <div class="row mb-4">
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="Year" name="Year" class="form-control">
+                            <label class="form-label" for="Year" style="margin-left: 0px;">Year</label>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
+                        </div>
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="Month" name="Month"  class="form-control">
+                            <label class="form-label" for="Month" style="margin-left: 0px;">Month</label>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
+                        </div>
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="Day" name="Day" class="form-control">
+                            <label class="form-label" for="Day" style="margin-left: 0px;">Day</label>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
+                        </div>
+                      </div>
+
+                      <!-- Text input -->
+                      <div class="form-outline mb-4">
+                        <input type="text" id="Origin" name="Origin" class="form-control">
+                        <label class="form-label" for="Origin" style="margin-left: 0px;">Origin Airport</label>
+                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
+
+                      <!-- Email input -->
+                      <div class="form-outline mb-4">
+                        <input type="text" id="Destination" name="Destination" class="form-control">
+                        <label class="form-label" for="Destination" style="margin-left: 0px;">Destination Airport</label>
+                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 40px;"></div><div class="form-notch-trailing"></div></div></div>
+
+                      <!-- Submit button -->
+                      <input type="submit" formaction="/departureSearch" class="btn btn-primary btn-block mb-4" value="Search">
+                    </form>
+
+
+                  </section>
               </div>
-              <div>
-                  <input type="radio" id="Airlines" name="radio" value="Airlines">
-                  <label for="Airlines">Airlines</label><br>
-                  <input type="radio" id="Airport" name="radio" value="Airport">
-                  <label for="Airport">Airport</label><br>
-                  <input type="radio" id="Flights" name="radio" value="Flights">
-                  <label for="Flights">Flights</label><br>
-              </div>
-          </div>
-          <div class="form-group my-3">
-              <div class="btn btn-primary rounded-0 d-flex justify-content-center text-center p-3 submit-btn btn btn-search"><strong>Send</strong>
-              </div>
-          </div>
-      </div>
-      <div id="errors" class="errors"></div>
+          </section>
+          <div id="errors" class="errors"></div>
     </div>
-</body>
+</div>
+
+
+  </body>
 </html>
