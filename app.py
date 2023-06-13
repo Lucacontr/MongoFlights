@@ -33,26 +33,25 @@ def insertFlight():
     for key, value in request.form.items():
         print(f"Field: {key} - Value: {value}")
 
-
     try:
         client = pymongo.MongoClient("localhost:27017")
         db = client["Flights"]
         collection = db.get_collection("Flights")
 
         documento = {
-            "YEAR": request.form.get("YEAR"),
-            "MONTH": request.form.get("MONTH"),
-            "DAY": request.form.get("DAY"),
+            "YEAR": int(request.form.get("Year").__str__()),
+            "MONTH": int(request.form.get("Month").__str__()),
+            "DAY": int(request.form.get("Day").__str__()),
             "AIRLINE": request.form.get("IATA_CODE"),
             "ORIGIN_AIRPORT": request.form.get("Origin"),
             "DESTINATION_AIRPORT": request.form.get("Destination"),
-            "AIR_TIME": request.form.get("Time")
+            "AIR_TIME": int(request.form.get("Time").__str__())
         }
 
         inserimento = collection.insert_one(documento)
         print(inserimento)
     except Exception as e:
-        print(e)
+        print(e.with_traceback())
     return render_template("insert.html")
 
 @app.route('/insertAirport', methods=['POST'])
