@@ -1,11 +1,29 @@
 <html>
   <head>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js" integrity="sha512-0RxGTiFXp36+bSbJM+/QSTl1LDQ4pHdDZ8Ua9ZXl454qKSsYu228AOLHYfzx/rm4Dm6I+176ETRF55DpvrHTgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.dark.min.css" integrity="sha512-Mpz/GtaUBKNAwsccAGeJSLOv9Q3kcQOI2ZOHKdANxNaYGOxrejgFed1FJbSMsxNahsPNiGVbIPY4ud+p8u90VA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.dark.min.css" integrity="sha512-Mpz/GtaUBKNAwsccAGeJSLOv9Q3kcQOI2ZOHKdANxNaYGOxrejgFed1FJbSMsxNahsPNiGVbIPY4ud+p8u90VA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
       <title>Document insertion</title>
   </head>
 
   <body>
+  <script>
+      $(document).ready(function() {
+
+
+          $('input[type="radio"]').change(function() {
+            // Ottieni il valore del radio button selezionato
+            var selectedOption = $('input[name="options"]:checked').val();
+            $('#content1').hide();
+            $('#content2').hide();
+            $('#content3').hide();
+
+            // Mostra il contenuto corrispondente all'opzione selezionata
+            $('#content' + selectedOption).show();
+          });
+        });
+  </script>
     <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
         <a class="navbar-brand" href="#">
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -36,75 +54,137 @@
 
           <div class="bg-black border rounded-5">
               <div class="btn-group">
-                <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked />
-                <label class="btn btn-secondary" for="option1">Flights</label>
+                <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" checked />
+                <label class="btn btn-secondary" for="1">Flights</label>
 
-                <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" />
-                <label class="btn btn-secondary" for="option2">Airports</label>
+                <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off" />
+                <label class="btn btn-secondary" for="2">Airports</label>
 
-                <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off" />
-                <label class="btn btn-secondary" for="option3">Airlines</label>
-            </div>
+                <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" />
+                <label class="btn btn-secondary" for="3">Airlines</label>
+              </div>
 
             <section class="pb-4">
-              <div class="flights_form">
+              <div class="forms">
                   <section class="w-100 p-4 text-center pb-4">
 
-                    <form>
+
+
+                    <form id="content1" method="POST">
                       <div class="row mb-4">
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="form6Example1" class="form-control">
-                            <label class="form-label" for="form6Example1" style="margin-left: 0px;">Year</label>
+                            <input type="text" id="Year" class="form-control">
+                            <label class="form-label" for="Year" style="margin-left: 0px;">Year</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="form6Example2" class="form-control">
-                            <label class="form-label" for="form6Example2" style="margin-left: 0px;">Month</label>
+                            <input type="text" id="Month" class="form-control">
+                            <label class="form-label" for="Month" style="margin-left: 0px;">Month</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="form6Example2" class="form-control">
-                            <label class="form-label" for="form6Example2" style="margin-left: 0px;">Day</label>
+                            <input type="text" id="Day" class="form-control">
+                            <label class="form-label" for="Day" style="margin-left: 0px;">Day</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                       </div>
 
                       <!-- Text input -->
                       <div class="form-outline mb-4">
-                        <input type="text" id="form6Example3" class="form-control">
-                        <label class="form-label" for="form6Example3" style="margin-left: 0px;">Company name</label>
+                        <input type="text" id="IATA_CODE" class="form-control">
+                        <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA_CODE Airline</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 97.6px;"></div><div class="form-notch-trailing"></div></div></div>
 
                       <!-- Text input -->
                       <div class="form-outline mb-4">
-                        <input type="text" id="form6Example4" class="form-control">
-                        <label class="form-label" for="form6Example4" style="margin-left: 0px;">Address</label>
+                        <input type="text" id="Origin" class="form-control">
+                        <label class="form-label" for="Origin" style="margin-left: 0px;">Origin Airport</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
 
                       <!-- Email input -->
                       <div class="form-outline mb-4">
-                        <input type="email" id="form6Example5" class="form-control">
-                        <label class="form-label" for="form6Example5" style="margin-left: 0px;">Email</label>
+                        <input type="text" id="Destination" class="form-control">
+                        <label class="form-label" for="Destination" style="margin-left: 0px;">Destination Airport</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 40px;"></div><div class="form-notch-trailing"></div></div></div>
 
                       <!-- Number input -->
                       <div class="form-outline mb-4">
-                        <input type="number" id="form6Example6" class="form-control">
-                        <label class="form-label" for="form6Example6" style="margin-left: 0px;">Phone</label>
+                        <input type="number" id="Time" class="form-control">
+                        <label class="form-label" for="Time" style="margin-left: 0px;">Air Time</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 44px;"></div><div class="form-notch-trailing"></div></div></div>
 
-                      <!-- Message input -->
+                      <!-- Submit button -->
+                      <input type="submit" formaction="/insertFlight" class="btn btn-primary btn-block mb-4">
+                    </form>
+
+
+
+                     <form id="content2" method="POST" style="display:none;">
+                      <div class="row mb-4">
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="IATA_CODE" class="form-control">
+                            <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA_CODE</label>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
+                        </div>
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="Name" class="form-control">
+                            <label class="form-label" for="Name" style="margin-left: 0px;">Airport name</label>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
+                        </div>
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="City" class="form-control">
+                            <label class="form-label" for="City" style="margin-left: 0px;">City</label>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
+                        </div>
+                      </div>
+
+                      <!-- Text input -->
                       <div class="form-outline mb-4">
-                        <textarea class="form-control" id="form6Example7" rows="4"></textarea>
-                        <label class="form-label" for="form6Example7" style="margin-left: 0px;">Additional information</label>
-                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 135.2px;"></div><div class="form-notch-trailing"></div></div></div>
+                        <input type="text" id="State" class="form-control">
+                        <label class="form-label" for="State" style="margin-left: 0px;">State</label>
+                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 97.6px;"></div><div class="form-notch-trailing"></div></div></div>
+
+                      <!-- Text input -->
+                      <div class="form-outline mb-4">
+                        <input type="text" id="Country" class="form-control">
+                        <label class="form-label" for="Country" style="margin-left: 0px;">Country</label>
+                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 55.2px;"></div><div class="form-notch-trailing"></div></div></div>
 
                       <!-- Submit button -->
-                      <button type="button" class="btn btn-primary btn-block mb-4">Place order</button>
+                      <input type="submit" formaction="insertAirport" class="btn btn-primary btn-block mb-4">
                     </form>
+
+
+
+
+
+
+                     <form id="content3" method="POST" style="display:none;">
+                      <div class="row mb-4">
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="IATA_CODE" class="form-control">
+                            <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA_CODE</label>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68.8px;"></div><div class="form-notch-trailing"></div></div></div>
+                        </div>
+                        <div class="col">
+                          <div class="form-outline">
+                            <input type="text" id="Name" class="form-control">
+                            <label class="form-label" for="Name" style="margin-left: 0px;">Airline Name</label>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 68px;"></div><div class="form-notch-trailing"></div></div></div>
+                        </div>
+
+                      </div>
+                      <!-- Submit button -->
+                      <input type="submit" formaction="/insertAirline" class="btn btn-primary btn-block mb-4">
+                    </form>
+
                   </section>
               </div>
           </section>
