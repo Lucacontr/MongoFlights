@@ -259,9 +259,9 @@ def idAirlines():
 
     # Controllo se il documento è stato trovato
     if document is not None:
-        return render_template("update.html", airline=document)
+        return render_template("update.html", airline=document, airport=None, flight=None)
     else:
-        return render_template("update.html", airline=document, message="No document match the given ID")
+        return render_template("update.html", airline=document, airport=None, flight=None, message="No document match the given ID")
 
 
 @app.route('/idFlights', methods=['POST'])
@@ -273,9 +273,9 @@ def idFlights():
     print(id)
     # Controllo se il documento è stato trovato
     if document is not None:
-        return render_template("update.html", airport="", airline="", flight=document)
+        return render_template("update.html", airport=None, airline=None, flight=document)
     else:
-        return render_template("update.html", airport="", airline="", flight=document, message="No document match the given ID")
+        return render_template("update.html", airport=None, airline=None, flight=document, message="No document match the given ID")
 
 
 @app.route('/updateFlights', methods=['POST'])
