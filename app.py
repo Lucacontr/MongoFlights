@@ -9,7 +9,7 @@ import pymongo
 app = Flask(__name__)
 try:
     client = pymongo.MongoClient("localhost:27017")
-    db = client["Flights"]
+    db = client["FlightsDB"]
     flights_collection = db.get_collection("Flights")
     airports_collection = db.get_collection("Airports")
     airlines_collection = db.get_collection("Airlines")

@@ -1,10 +1,9 @@
 <html>
   <head>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js" integrity="sha512-0RxGTiFXp36+bSbJM+/QSTl1LDQ4pHdDZ8Ua9ZXl454qKSsYu228AOLHYfzx/rm4Dm6I+176ETRF55DpvrHTgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.dark.min.css" integrity="sha512-Mpz/GtaUBKNAwsccAGeJSLOv9Q3kcQOI2ZOHKdANxNaYGOxrejgFed1FJbSMsxNahsPNiGVbIPY4ud+p8u90VA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-      <title>Flight Search</title>
+    <title>Document deletion</title>
   </head>
 
   <body>
@@ -39,12 +38,12 @@
               <a class="nav-item nav-link active" href={{url_for("departure")}}>Departure/Destination</a>
               <a class="nav-item nav-link active" href={{url_for("airports")}}>Airports</a>
               <a class="nav-item nav-link active" href={{url_for("airlines")}}>Airlines</a>
-
             </div>
         </div>
     </nav>
-    <br><br>
-    <div class="btn-group">
+
+    <div class="bg-white border rounded-5">
+    <div class="btn-group d-flex align-self-center" style="margin-inline: 35em; margin-top: 5em">
         <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" checked />
         <label class="btn btn-secondary" for="1">Flights</label>
 
@@ -54,25 +53,44 @@
         <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" />
         <label class="btn btn-secondary" for="3">Airlines</label>
     </div>
-    <br><br>
-    <div class="form-outline bg-black border rounded-5 text-center">
-        <form id="formQuery1" method="POST">
-          <input type="text" id="query" name="query" class="form-control" />
-          <label class="form-label" for="query">{"field" : "value"}</label>
-          <input type="submit" formaction="/deleteFlight" class="btn btn-primary btn-block mb-4">
-        </form>
-        <form id="formQuery2" method="POST" style="display:none;">
-          <input type="text" id="query" name="query" class="form-control" />
-          <label class="form-label" for="query">{"field" : "value"}</label>
-          <input type="submit" formaction="/deleteAirport" class="btn btn-primary btn-block mb-4">
-        </form>
-        <form id="formQuery3" method="POST" style="display:none;">
-          <input type="text" id="query" name="query" class="form-control" />
-          <label class="form-label" for="query">{"field" : "value"}</label>
-          <input type="submit" formaction="/deleteAirline" class="btn btn-primary btn-block mb-4">
-        </form>
-        <h3> {{ message }}</h3>
-    </div>
 
+    <section class="pb-4" style="margin-inline: 15em;">
+        <div class="forms">
+            <section class="p-4 text-center pb-4">
+                <div class="form-outline bg-white text-center">
+
+                    <form id="formQuery1" method="POST">
+                      <div class="form-outline">
+                        <textarea type="text" id="query" name="query" class="form-control"></textarea>
+                        <label class="form-label" for="query" style="margin-left: 0px;">{"field" : "value"}</label>
+                        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
+                      </div>
+                      <input type="submit" formaction="/deleteFlight" class="btn btn-primary btn-block mb-4">
+                    </form>
+
+                    <form id="formQuery2" method="POST" style="display:none;">
+                      <div class="form-outline">
+                        <textarea type="text" id="query" name="query" class="form-control"></textarea>
+                        <label class="form-label" for="query" style="margin-left: 0px;">{"field" : "value"}</label>
+                        <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
+                      </div>
+                      <input type="submit" formaction="/deleteAirport" class="btn btn-primary btn-block mb-4">
+                    </form>
+
+                    <form id="formQuery3" method="POST" style="display:none;">
+                    <div class="form-outline">
+                      <textarea type="text" id="query" name="query" class="form-control"></textarea>
+                      <label class="form-label" for="query" style="margin-left: 0px;">{"field" : "value"}</label>
+                      <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
+                    </div>
+                    <input type="submit" formaction="/deleteAirline" class="btn btn-primary btn-block mb-4">
+                    </form>
+
+                    <h3> {{ message }}</h3>
+                </div>
+            </section>
+        </div>
+    </section>
+    </div>
   </body>
 </html>
