@@ -35,6 +35,7 @@
             <div class="navbar-nav">
               <a class="nav-item nav-link active" href={{url_for("insert")}}>Insert</a>
               <a class="nav-item nav-link active" href={{url_for("delete")}}>Delete</a>
+                <a class="nav-item nav-link active" href={{url_for("update")}}>Update</a>
               <a class="nav-item nav-link active" href={{url_for("departure")}}>Departure/Destination</a>
               <a class="nav-item nav-link active" href={{url_for("airports")}}>Airports</a>
               <a class="nav-item nav-link active" href={{url_for("airlines")}}>Airlines</a>
@@ -130,7 +131,7 @@
                 <form id="formQuery3" method="POST">
                   <input type="text" id="Query" name="Query" class="form-control" />
                   <label class="form-label" for="Query">{"field" : "value"}</label>
-                  <input type="submit" formaction="/queryAirlines" class="btn btn-primary btn-block mb-4">
+                  <input type="submit" formaction="/queryAirports" class="btn btn-primary btn-block mb-4">
                 </form>
             </div>
           <section class="pb-4">
@@ -175,7 +176,7 @@
                 <form id="formQuery3" method="POST">
                   <input type="text" id="Query" name="Query" class="form-control" />
                   <label class="form-label" for="Query">{"field" : "value"}</label>
-                  <input type="submit" formaction="/queryAirport" class="btn btn-primary btn-block mb-4">
+                  <input type="submit" formaction="/queryAirlines" class="btn btn-primary btn-block mb-4">
                 </form>
             </div>
           <section class="pb-4">

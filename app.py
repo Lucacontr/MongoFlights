@@ -30,6 +30,10 @@ def query():  # put application's code here
 def insert():
     return render_template("insert.html")
 
+@app.route("/update")
+def update():
+    return render_template("update.html", airline=None, airport=None, flight=None)
+
 
 @app.route("/delete")
 def delete():
@@ -196,6 +200,7 @@ def deleteFlight():
         else:
             return render_template("delete.html", message="Document deleted successfully")
 
+
 @app.route('/deleteAirport', methods=['POST'])
 def deleteAirport():
     query = request.form.get("query").__str__()
@@ -212,6 +217,7 @@ def deleteAirport():
         else:
             return render_template("delete.html", message="Document deleted successfully")
 
+
 @app.route('/deleteAirline', methods=['POST'])
 def deleteAirline():
     query = request.form.get("query").__str__()
@@ -227,6 +233,129 @@ def deleteAirline():
             return render_template("delete.html", message="No document match the given query")
         else:
             return render_template("delete.html", message="Document deleted successfully")
+
+
+@app.route('/idAirports', methods=['POST'])
+def idAirport():
+    id = request.form.get("ID").__str__()
+    # Ricerca dell'ID nella collezione
+
+    document = airports_collection.find_one({'_id': ObjectId(id)})
+
+    # Controllo se il documento è stato trovato
+    if document is not None:
+        return render_template("update.html", airport=document, airline=None, flight=None)
+    else:
+        return render_template("update.html", airport=document, airline=None, flight=None, message="No document match the given ID")
+
+
+@app.route('/idAirlines', methods=['POST'])
+def idAirlines():
+    id = request.form.get("ID").__str__()
+
+    # Ricerca dell'ID nella collezione
+
+    document = airlines_collection.find_one({'_id': ObjectId(id)})
+
+    # Controllo se il documento è stato trovato
+    if document is not None:
+        return render_template("update.html", airline=document)
+    else:
+        return render_template("update.html", airline=document, message="No document match the given ID")
+
+
+@app.route('/idFlights', methods=['POST'])
+def idFlights():
+    id = request.form.get("ID").__str__()
+    # Ricerca dell'ID nella collezione
+
+    document = flights_collection.find_one({'_id': ObjectId(id)})
+    print(id)
+    # Controllo se il documento è stato trovato
+    if document is not None:
+        return render_template("update.html", airport="", airline="", flight=document)
+    else:
+        return render_template("update.html", airport="", airline="", flight=document, message="No document match the given ID")
+
+
+@app.route('/updateFlights', methods=['POST'])
+def updateFlight():
+
+    id = request.form.get("id")
+
+    document = {'$set': {
+                            "YEAR": request.form.get("year"),
+                            "MONTH": request.form.get("month"),
+                            "DAY": request.form.get("day"),
+                            "AIRLINE": request.form.get("airline"),
+                            "FLIGHT_NUMBER": request.form.get("flight"),
+                            "TAIL_NUMBER": request.form.get("tail"),
+                            "ORIGIN_AIRPORT": request.form.get("origin"),
+                            "DESTINATION_AIRPORT": request.form.get("destination"),
+                            "SCHEDULED_DEPARTURE": request.form.get("departure"),
+                            "DEPARTURE_TIME": request.form.get("depTime"),
+                            "DEPARTURE_DELAY": request.form.get("depDelay"),
+                            "TAXI_OUT": request.form.get("taxi"),
+                            "WHEELS_OFF": request.form.get("wheels"),
+                            "SCHEDULED_TIME": request.form.get("schedTime"),
+                            "DISTANCE": request.form.get("distance"),
+                            "TAXI_IN": request.form.get("taxiIn"),
+                            "ARRIVAL_TIME": request.form.get("arrTime"),
+                            "DIVERTED": request.form.get("diverted"),
+                            "CANCELLED": request.form.get("cancelled")
+                        }
+                }
+
+    result = flights_collection.update_one( {'_id': ObjectId(id)}, document)
+
+    if result.modified_count > 0:
+        message = "Document updated successfully."
+    else:
+        message = "No document found matching the given query."
+    return render_template("update.html", airport="", airline="", flight="", message=message)
+
+
+@app.route('/updateAirports', methods=['POST'])
+def updateAirports():
+
+    id = request.form.get("id")
+
+    document = {'$set': {
+                            "IATA_CODE": request.form.get("IATA_CODE"),
+                            "AIRPORT": request.form.get("Name"),
+                            "CITY": request.form.get("City"),
+                            "STATE": request.form.get("State"),
+                            "COUNTRY": request.form.get("Country"),
+                            "LATITUDE": request.form.get("Latitude"),
+                            "LONGITUDE": request.form.get("Longitude")
+                        }
+                }
+
+    result = airports_collection.update_one( {'_id': ObjectId(id)}, document)
+
+    if result.modified_count > 0:
+        message = "Document updated successfully."
+    else:
+        message = "No document found matching the given query."
+    return render_template("update.html", airport="", airline="", flight="", message=message)
+
+
+@app.route('/updateAirlines', methods=['POST'])
+def updateAirlines():
+
+    id = request.form.get("id")
+    document = {'$set': {
+                            "IATA_CODE": request.form.get("IATA_CODE"),
+                            "AIRLINE": request.form.get("Name")
+                        }
+                }
+
+    result = airlines_collection.update_one( {'_id': ObjectId(id)}, document)
+    if result.modified_count > 0:
+        message = "Document updated successfully."
+    else:
+        message = "No document found matching the given query."
+    return render_template("update.html", airline="", flight="", airport="", message=message)
 
 
 if __name__ == '__main__':
