@@ -36,6 +36,7 @@
             <div class="navbar-nav">
               <a class="nav-item nav-link active" href={{url_for("insert")}}>Insert</a>
               <a class="nav-item nav-link active" href={{url_for("delete")}}>Delete</a>
+              <a class="nav-item nav-link active" href={{url_for("update")}}>Update</a>
               <a class="nav-item nav-link active" href={{url_for("departure")}}>Departure/Destination</a>
               <a class="nav-item nav-link active" href={{url_for("airports")}}>Airports</a>
               <a class="nav-item nav-link active" href={{url_for("airlines")}}>Airlines</a>
@@ -59,14 +60,19 @@
 
         <h3 id="message">{{ message }}</h3>
 
-        <div id="FlightTableForm1" class="FlightTableForm pb-4 forms" style="margin-top: 2em">
-            <section class="form-outline border rounded-5 text-center justify-content-center">
-                <form id="formQuery1" method="POST">
-                  <input type="text" id="Query" name="Query" class="form-control" />
-                  <label class="form-label" for="Query">{"field" : "value"}</label>
-                  <button class="btn btn-primary btn-block mb-4" formaction="/queryFlights">Send</button>
-                </form>
-            </section>
+        <section id="FlightTableForm1" class="pb-4" style="margin-inline: 15em;">
+            <div class="forms">
+                <section class="p-4 text-center pb-4">
+                    <div class="form-outline text-center">
+                        <form id="formQuery1" method="POST">
+                          <input type="text" id="Query" name="Query" class="form-control" />
+                          <label class="form-label" for="Query">{"field" : "value"}</label>
+                          <button class="btn btn-primary btn-block mb-4" formaction="/queryFlights">Send</button>
+                        </form>
+                    </div>
+                </section>
+            </div></section>
+        </div>
 
               <h3>Total flights: {{ flights_size }}</h3>
               <div class="bg-white border rounded-5">
@@ -129,7 +135,7 @@
 
 
           <div id="FlightTableForm2" class="FlightTableForm" style="display:none; margin-top: 2em">
-                <div class="form-outline bg-black border rounded-5 text-center">
+                <div class="form-outline bg-white border rounded-5 text-center">
                     <form id="formQuery3" method="POST">
                       <input type="text" id="Query" name="Query" class="form-control" />
                       <label class="form-label" for="Query">{"field" : "value"}</label>
@@ -174,7 +180,7 @@
 
 
           <div id="FlightTableForm3" class="FlightTableForm3" style="display:none; margin-top: 2em">
-                <div class="form-outline bg-black border rounded-5 text-center">
+                <div class="form-outline bg-white border rounded-5 text-center">
                     <form id="formQuery3" method="POST">
                       <input type="text" id="Query" name="Query" class="form-control" />
                       <label class="form-label" for="Query">{"field" : "value"}</label>

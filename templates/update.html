@@ -1,12 +1,10 @@
 <html>
     <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.js" integrity="sha512-0RxGTiFXp36+bSbJM+/QSTl1LDQ4pHdDZ8Ua9ZXl454qKSsYu228AOLHYfzx/rm4Dm6I+176ETRF55DpvrHTgw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.dark.min.css" integrity="sha512-Mpz/GtaUBKNAwsccAGeJSLOv9Q3kcQOI2ZOHKdANxNaYGOxrejgFed1FJbSMsxNahsPNiGVbIPY4ud+p8u90VA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <title>Document insertion</title>
+    <title>Document update</title>
   </head>
-
-  <body>
 
       <script>
           $(document).ready(function() {
@@ -44,7 +42,7 @@
             <div class="navbar-nav">
               <a class="nav-item nav-link active" href={{url_for("insert")}}>Insert</a>
               <a class="nav-item nav-link active" href={{url_for("delete")}}>Delete</a>
-                <a class="nav-item nav-link active" href={{url_for("update")}}>Update</a>
+              <a class="nav-item nav-link active" href={{url_for("update")}}>Update</a>
               <a class="nav-item nav-link active" href={{url_for("departure")}}>Departure/Destination</a>
               <a class="nav-item nav-link active" href={{url_for("airports")}}>Airports</a>
               <a class="nav-item nav-link active" href={{url_for("airlines")}}>Airlines</a>
@@ -52,97 +50,206 @@
             </div>
         </div>
     </nav>
-    <br>
-    <div class="btn-group">
-        <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off"  />
-        <label class="btn btn-secondary" for="1">Flights</label>
 
-        <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off"  />
-        <label class="btn btn-secondary" for="2">Airports</label>
+    <div class="bg-white border rounded-5" style="margin-inline: 15em;">
+        <div class="btn-group d-flex align-self-center" style="margin-inline: 35em; margin-top: 5em">
+            <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" checked />
+            <label class="btn btn-secondary" for="1">Flights</label>
 
-        <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" checked/>
-        <label class="btn btn-secondary" for="3">Airlines {{ radio_value }}</label>
+            <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off" />
+            <label class="btn btn-secondary" for="2">Airports</label>
 
-    </div>
-    <br><br>
-    <h3 id="message"> {{ message }}</h3>
+            <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" />
+            <label class="btn btn-secondary" for="3">Airlines</label>
+        </div>
 
-      <div id="FlightTableForm1" class="FlightTableForm1" style="display:none;">
-            <div class="form-outline bg-black border rounded-5 text-center">
-                <form id="formQuery1" method="POST">
-                  <input type="text" id="ID" name="ID" class="form-control" />
-                  <label class="form-label" for="ID">ID</label>
-                  <input type="submit" formaction="/idFlights" class="btn btn-primary btn-block mb-4">
-                </form>
-            </div>
-          <section class="pb-4">
-            <div class="bg-white border rounded-5">
-            <section class="w-100 p-4 text-center">
-                <form id="formQuery3" method="POST" >
-                  <table class="table table-striped table-responsive">
-                    <thead>
-                      <tr>
-                        <th scope="col">Year</th>
-                        <th scope="col">Month</th>
-                        <th scope="col">Day</th>
-                        <th scope="col">Airline</th>
-                        <th scope="col">Flight Number</th>
-                        <th scope="col">Tail Number</th>
-                        <th scope="col">Origin airport</th>
-                        <th scope="col">Destination airport</th>
-                        <th scope="col">Scheduled Departure</th>
-                        <th scope="col">Departure Time</th>
-                        <th scope="col">Departure Delay</th>
-                        <th scope="col">Taxi Out</th>
-                        <th scope="col">Wheels Off</th>
-                        <th scope="col">Scheduled Time</th>
-                        <th scope="col">Distance</th>
-                        <th scope="col">Taxi in</th>
-                        <th scope="col">Arrival Time</th>
-                        <th scope="col">Diverted</th>
-                        <th scope="col">Cancelled</th>
-                      </tr>
-                    </thead>
-                        <tbody>
-                          <tr>
-                              <td><input type="text" id="year" name="year" value={{ flight.YEAR }}><label class="form-label" for="year"></label></td>
-                            <td><input type="text" id="month" name="month" value={{ flight.MONTH }}><label class="form-label" for="month"></label></td>
-                              <td><input type="text" id="day" name="day" value={{ flight.DAY }}><label class="form-label" for="day"></label></td>
-                            <td><input type="text" id="airline" name="airline" value={{ flight.AIRLINE }}><label class="form-label" for="airline"></label></td>
-                              <td><input type="text" id="flight" name="flight" value={{ flight.FLIGHT_NUMBER }}><label class="form-label" for="flight"></label></td>
-                            <td><input type="text" id="tail" name="tail" value={{ flight.TAIL_NUMBER }}><label class="form-label" for="tail"></label></td>
-                              <td><input type="text" id="origin" name="origin" value={{ flight.ORIGIN_AIRPORT }}><label class="form-label" for="origin"></label></td>
-                              <td><input type="text" id="destination" name="destination" value={{ flight.DESTINATION_AIRPORT }}><label class="form-label" for="destination"></label></td>
-                            <td><input type="text" id="departure" name="departure" value={{ flight.SCHEDULED_DEPARTURE }}><label class="form-label" for="departure"></label></td>
-                              <td><input type="text" id="depTime" name="depTime" value={{ flight.DEPARTURE_TIME }}><label class="form-label" for="depTime"></label></td>
-                            <td><input type="text" id="depDelay" name="depDelay" value={{ flight.DEPARTURE_DELAY }}><label class="form-label" for="depDelay"></label></td>
-                              <td><input type="text" id="taxi" name="taxi" value={{ flight.TAXI_OUT }}><label class="form-label" for="taxi"></label></td>
-                            <td><input type="text" id="wheels" name="wheels" value={{ flight.WHEELS_OFF }}><label class="form-label" for="wheels"></label></td>
-                              <td><input type="text" id="schedTime" name="schedTime" value={{ flight.SCHEDULED_TIME }}><label class="form-label" for="schedTime"></label></td>
-                              <td><input type="text" id="distance" name="distance" value={{ flight.DISTANCE }}><label class="form-label" for="distance"></label></td>
-                            <td><input type="text" id="taxiIn" name="taxiIn" value={{ flight.TAXI_IN }}><label class="form-label" for="taxiIn"></label></td>
-                              <td><input type="text" id="arrTime" name="arrTime" value={{ flight.ARRIVAL_TIME }}><label class="form-label" for="arrTime"></label></td>
-                            <td><input type="text" id="diverted" name="diverted" value={{ flight.DIVERTED }}><label class="form-label" for="diverted"></label></td>
-                              <td><input type="text" id="cancelled" name="cancelled" value={{ flight.CANCELLED }}><label class="form-label" for="cancelled"></label></td>
-                          </tr>
+        <h3 id="message"> {{ message }}</h3>
 
-                        </tbody>
-                  </table>
-                    <input type="hidden" name="id" value={{ flight._id}}>
+          <section id="FlightTableForm1" class="pb-4 FlightTableForm1" style="display: none">
+            <div class="forms">
+                <section class="p-4 text-center pb-4">
+                    <div class="form-outline bg-white text-center">
+                        <form id="formQuery1" method="POST">
+                          <input type="text" id="ID" name="ID" class="form-control" />
+                          <label class="form-label" for="ID">ID</label>
+                          <input type="submit" formaction="/idFlights" class="btn btn-primary btn-block mb-4">
+                        </form>
+                    </div>
+                    <section class="pb-4">
+                    <div class="bg-white border rounded-5">
+                    <section class="w-100 p-4 text-center">
+                        <form id="formQuery3" method="POST" >
+                          <div class="row mb-4">
+                            <div class="col">
+                              <div class="form-outline">
+                                <input type="text" id="year" name="year" class="form-control">
+                                <label class="form-label" for="year" style="margin-left: 0px;">Year</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 35px;"></div><div class="form-notch-trailing"></div></div></div>
+                            </div>
+                            <div class="col">
+                              <div class="form-outline">
+                                <input type="text" id="month" name="month" class="form-control">
+                                <label class="form-label" for="month" style="margin-left: 0px;">Month</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 42px;"></div><div class="form-notch-trailing"></div></div></div>
+                            </div>
+                            <div class="col">
+                              <div class="form-outline">
+                                <input type="text" id="day" name="day" class="form-control">
+                                <label class="form-label" for="day" style="margin-left: 0px;">Day</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 30px;"></div><div class="form-notch-trailing"></div></div></div>
+                            </div>
+                        </div>
 
-                  <input type="submit" formaction="/updateFlights" class="btn btn-primary btn-block mb-4" value="UPDATE">
+                        <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="airline" name="airline" class="form-control">
+                                <label class="form-label" for="airline" style="margin-left: 0px;">Airline</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
 
-                </form>
-            </section>
-            </div>
-          </section>
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="flight" name="flight" class="form-control">
+                                <label class="form-label" for="flight" style="margin-left: 0px;">Flight Number</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                          <!-- Email input -->
+                          <div class="col">
+                          <div class="form-outline mb-4">
+                            <input type="text" id="tail" name="tail" class="form-control">
+                            <label class="form-label" for="tail" style="margin-left: 0px;">Tail Number</label>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div></div>
+                            </div>
+                        </div>
 
-      </div>
+                      <!-- Text input -->
+
+                       <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="origin" name="origin" class="form-control">
+                                <label class="form-label" for="origin" style="margin-left: 0px;">Origin Airport</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="destination" name="destination" class="form-control">
+                                <label class="form-label" for="destination" style="margin-left: 0px;">Destination Airport</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                       </div>
+
+
+                       <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="departure" name="departure" class="form-control">
+                                <label class="form-label" for="departure" style="margin-left: 0px;">Scheduled departure</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="depTime" name="depTime" class="form-control">
+                                <label class="form-label" for="depTime" style="margin-left: 0px;">Departure Time</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="depDelay" name="depDelay" class="form-control">
+                                <label class="form-label" for="depDelay" style="margin-left: 0px;">Departure Time</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                       </div>
+
+                       <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="taxi" name="taxi" class="form-control">
+                                <label class="form-label" for="taxi" style="margin-left: 0px;">Taxi Out</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="wheels" name="wheels" class="form-control">
+                                <label class="form-label" for="wheels" style="margin-left: 0px;">Wheels Off</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="schedTime" name="schedTime" class="form-control">
+                                <label class="form-label" for="schedTime" style="margin-left: 0px;">Scheduled Time</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                       </div>
+
+                       <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="distance" name="distance" class="form-control">
+                                <label class="form-label" for="distance" style="margin-left: 0px;">Distance</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="taxiIn" name="taxiIn" class="form-control">
+                                <label class="form-label" for="taxiIn" style="margin-left: 0px;">Taxi In</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="arrTime" name="arrTime" class="form-control">
+                                <label class="form-label" for="arrTime" style="margin-left: 0px;">Arrival Time</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                       </div>
+
+                       <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="diverted" name="diverted" class="form-control">
+                                <label class="form-label" for="diverted" style="margin-left: 0px;">Diverted</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="cancelled" name="cancelled" class="form-control">
+                                <label class="form-label" for="cancelled" style="margin-left: 0px;">Cancelled</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                       </div>
+
+                      <!-- Number input -->
+                      <input type="submit" formaction="/updateFlights" class="btn btn-primary btn-block mb-4" value="Update">
+
+                      </form>
+
+                    </section>
+                    </div>
+                    </section>
+                </section>
+            </div></section>
 
 
 
-      <div id="FlightTableForm2" class="FlightTableForm2" style="display:none;">
-            <div class="form-outline bg-black border rounded-5 text-center">
+      <section id="FlightTableForm2" class="FlightTableForm2" style="display:none;">
+            <div class="forms">
+                <section class="p-4 text-center pb-4">
+                    <div class="form-outline bg-white text-center">
                 <form id="formQuery2" method="POST">
                   <input type="text" id="ID" name="ID" class="form-control" />
                   <label class="form-label" for="ID">ID</label>
@@ -153,46 +260,81 @@
             <div class="bg-white border rounded-5">
             <section class="w-100 p-4 text-center">
                 <form id="formQuery3" method="POST" >
-                  <table class="table table-striped table-responsive">
-                    <thead>
-                      <tr>
-                        <th scope="col">IATA_CODE</th>
-                        <th scope="col">Airport</th>
-                          <th scope="col">City</th>
-                          <th scope="col">State</th>
-                        <th scope="col">Country</th>
-                        <th scope="col">Latitude</th>
-                          <th scope="col">Longitude</th>
-                      </tr>
-                    </thead>
-                        <tbody>
-                          <tr>
-                              <td><input type="text" id="IATA_CODE" name="IATA_CODE" value={{ airport.IATA_CODE }}><label class="form-label" for="IATA_CODE"></label></td>
-                            <td><input type="text" id="Name" name="Name" value={{ airport.AIRPORT}}><label class="form-label" for="Name"></label></td>
-                              <td><input type="text" id="City" name="City" value={{ airport.CITY }}><label class="form-label" for="City"></label></td>
-                            <td><input type="text" id="State" name="State" value={{ airport.STATE}}><label class="form-label" for="State"></label></td>
-                              <td><input type="text" id="Country" name="Country" value={{ airport.COUNTRY }}><label class="form-label" for="Country"></label></td>
-                            <td><input type="text" id="Latitude" name="Latitude" value={{ airport.LATITUDE}}><label class="form-label" for="Latitude"></label></td>
-                              <td><input type="text" id="Longitude" name="Longitude" value={{ airport.LONGITUDE }}><label class="form-label" for="Longitude"></label></td>
-                          </tr>
+                  <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control">
+                                <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA Code</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
 
-                        </tbody>
-                  </table>
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="Name" name="Name" class="form-control">
+                                <label class="form-label" for="Name" style="margin-left: 0px;">Airport</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                  </div>
+
+                  <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="City" name="City" class="form-control">
+                                <label class="form-label" for="City" style="margin-left: 0px;">City</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="State" name="State" class="form-control">
+                                <label class="form-label" for="State" style="margin-left: 0px;">State</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="Country" name="Country" class="form-control">
+                                <label class="form-label" for="Country" style="margin-left: 0px;">Country</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                  </div>
                     <input type="hidden" name="id" value={{ airport._id}}>
 
-                  <input type="submit" formaction="/updateAirports" class="btn btn-primary btn-block mb-4" value="UPDATE">
+                    <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="Latitude" name="Latitude" class="form-control">
+                                <label class="form-label" for="Latitude" style="margin-left: 0px;">Latitude</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
 
-                </form>
-            </section>
-            </div>
-          </section>
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="Longitude" name="Longitude" class="form-control">
+                                <label class="form-label" for="Longitude" style="margin-left: 0px;">Longitude</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                  </div>
 
-      </div>
+                  <input type="submit" formaction="/updateAirports" class="btn btn-primary btn-block mb-4" value="Update">
+
+                        </form>
+
+                    </section>
+                    </div>
+                    </section>
+                </section>
+            </div></section>
 
 
 
-      <div id="FlightTableForm3" class="FlightTableForm3" style="display:none;">
-            <div class="form-outline bg-black border rounded-5 text-center">
+      <section id="FlightTableForm3" class="FlightTableForm3" style="display:none;">
+            <div class="forms">
+                <section class="p-4 text-center pb-4">
+                    <div class="form-outline bg-white text-center">
                 <form id="formQuery3" method="POST">
                   <input type="text" id="ID" name="ID" class="form-control" />
                   <label class="form-label" for="ID">ID</label>
@@ -203,31 +345,33 @@
             <div class="bg-white border rounded-5">
             <section class="w-100 p-4 text-center">
                 <form id="formQuery3" method="POST" >
-                  <table class="table table-striped table-responsive">
-                    <thead>
-                      <tr>
-                        <th scope="col">IATA_CODE</th>
-                        <th scope="col">Airline</th>
-                      </tr>
-                    </thead>
-                        <tbody>
-                          <tr>
-                              <td><input type="text" id="IATA_CODE" name="IATA_CODE" value={{ airline.IATA_CODE }}><label class="form-label" for="IATA_CODE"></label></td>
-                            <td><input type="text" id="Name" name="Name" value={{ airline.AIRLINE}}><label class="form-label" for="Name"></label></td>
-                          </tr>
+                  <div class="row mb-4">
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control">
+                                <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA Code</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
 
-                        </tbody>
-                  </table>
-                    <input type="hidden" name="id" value={{ airline._id}}>
+                          <!-- Text input -->
+                          <div class="col">
+                              <div class="form-outline mb-4">
+                                <input type="text" id="Name" name="Name" class="form-control">
+                                <label class="form-label" for="Name" style="margin-left: 0px;">Name</label>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
+                          </div>
+                  </div>
+                  <input type="hidden" name="id" value={{ airline._id}}>
 
-                  <input type="submit" formaction="/updateAirlines" class="btn btn-primary btn-block mb-4" value="UPDATE">
+                  <input type="submit" formaction="/updateAirlines" class="btn btn-primary btn-block mb-4" value="Update">
 
-                </form>
-            </section>
-            </div>
-          </section>
+                        </form>
 
-      </div>
+                    </section>
+                    </div>
+                    </section>
+                </section>
+            </div></section></div>
 
   </body>
 </html>
