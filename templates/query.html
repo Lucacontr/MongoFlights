@@ -3,7 +3,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <title>Query</title>
+    <title>Index</title>
   </head>
 
   <body>
@@ -56,88 +56,91 @@
             <label class="btn btn-secondary" for="3">Airlines</label>
         </div>
 
-        <section id="FlightTableForm1" name="FlightTableForm1" class="pb-4" style="margin-inline: 15em;">
-            <div class="forms">
-                <section class="p-4 text-center pb-4">
-                    <div class="form-outline bg-white text-center">
+    <h3 id="message">{{ message }}</h3>
 
-                        <form id="formQuery1" method="POST">
-                            <div class="form-outline">
-                              <input type="text" id="Query" name="Query" class="form-control" />
-                              <label class="form-label" for="Query">{"field" : "value"}</label>
-                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
-                            </div>
-                          <button class="btn btn-primary btn-block mb-4" formaction="/queryFlights">Send</button>
-                        </form>
-                    </div>
-                </section>
-            </div>
-        </section>
+        <div id="FlightTableForm1" name="FlightTableForm1">
+            <section class="pb-4" style="margin-inline: 15em;">
+                <div class="forms">
+                    <section class="p-4 text-center pb-4">
+                        <div class="form-outline bg-white text-center">
 
-
-        <h3 id="message">{{ message }}</h3>
-
-
-          <h3>Total flights: {{ flights_size }}</h3>
-          <div class="bg-white border rounded-5">
-            <section class="w-100 p-4 text-center">
-                <div class="table-responsive">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">Year</th>
-                        <th scope="col">Month</th>
-                        <th scope="col">Day</th>
-                        <th scope="col">Airline</th>
-                        <th scope="col">Flight Number</th>
-                        <th scope="col">Tail Number</th>
-                        <th scope="col">Origin airport</th>
-                        <th scope="col">Destination airport</th>
-                        <th scope="col">Scheduled Departure</th>
-                        <th scope="col">Departure Time</th>
-                        <th scope="col">Departure Delay</th>
-                        <th scope="col">Taxi Out</th>
-                        <th scope="col">Wheels Off</th>
-                        <th scope="col">Scheduled Time</th>
-                        <th scope="col">Distance</th>
-                        <th scope="col">Taxi in</th>
-                        <th scope="col">Arrival Time</th>
-                        <th scope="col">Diverted</th>
-                        <th scope="col">Cancelled</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                    {% for flight in flights %}
-                      <tr>
-                        <td>{{ flight.YEAR }}</td>
-                        <td>{{ flight.MONTH }}</td>
-                        <td>{{ flight.DAY }}</td>
-                        <td>{{ flight.AIRLINE }}</td>
-                        <td>{{ flight.FLIGHT_NUMBER }}</td>
-                        <td>{{ flight.TAIL_NUMBER }}</td>
-                        <td>{{ flight.ORIGIN_AIRPORT }}</td>
-                        <td>{{ flight.DESTINATION_AIRPORT }}</td>
-                        <td>{{ flight.SCHEDULED_DEPARTURE }}</td>
-                        <td>{{ flight.DEPARTURE_TIME }}</td>
-                        <td>{{ flight.DEPARTURE_DELAY }}</td>
-                        <td>{{ flight.TAXI_OUT }}</td>
-                        <td>{{ flight.WHEELS_OFF }}</td>
-                        <td>{{ flight.SCHEDULED_TIME }}</td>
-                        <td>{{ flight.DISTANCE }}</td>
-                        <td>{{ flight.TAXI_IN }}</td>
-                        <td>{{ flight.ARRIVAL_TIME }}</td>
-                        <td>{{ flight.DIVERTED }}</td>
-                        <td>{{ flight.CANCELLED }}</td>
-                      </tr>
-                    {% endfor %}
-                    </tbody>
-                  </table>
+                            <form id="formQuery1" method="POST">
+                                <div class="form-outline">
+                                  <input type="text" id="Query" name="Query" class="form-control" />
+                                  <label class="form-label" for="Query">{"field" : "value"}</label>
+                                  <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
+                                </div>
+                              <button class="btn btn-primary btn-block mb-4" formaction="/queryFlights">Send</button>
+                            </form>
+                        </div>
+                    </section>
                 </div>
             </section>
-          </div>
 
 
-         <div id="FlightTableForm2" class="pb-4" style="margin-inline: 15em;">
+
+
+
+              <h3>Total flights: {{ flights_size }}</h3>
+              <div class="bg-white border rounded-5">
+                <section class="w-100 p-4 text-center">
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Year</th>
+                            <th scope="col">Month</th>
+                            <th scope="col">Day</th>
+                            <th scope="col">Airline</th>
+                            <th scope="col">Flight Number</th>
+                            <th scope="col">Tail Number</th>
+                            <th scope="col">Origin airport</th>
+                            <th scope="col">Destination airport</th>
+                            <th scope="col">Scheduled Departure</th>
+                            <th scope="col">Departure Time</th>
+                            <th scope="col">Departure Delay</th>
+                            <th scope="col">Taxi Out</th>
+                            <th scope="col">Wheels Off</th>
+                            <th scope="col">Scheduled Time</th>
+                            <th scope="col">Distance</th>
+                            <th scope="col">Taxi in</th>
+                            <th scope="col">Arrival Time</th>
+                            <th scope="col">Diverted</th>
+                            <th scope="col">Cancelled</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for flight in flights %}
+                          <tr>
+                            <td>{{ flight.YEAR }}</td>
+                            <td>{{ flight.MONTH }}</td>
+                            <td>{{ flight.DAY }}</td>
+                            <td>{{ flight.AIRLINE }}</td>
+                            <td>{{ flight.FLIGHT_NUMBER }}</td>
+                            <td>{{ flight.TAIL_NUMBER }}</td>
+                            <td>{{ flight.ORIGIN_AIRPORT }}</td>
+                            <td>{{ flight.DESTINATION_AIRPORT }}</td>
+                            <td>{{ flight.SCHEDULED_DEPARTURE }}</td>
+                            <td>{{ flight.DEPARTURE_TIME }}</td>
+                            <td>{{ flight.DEPARTURE_DELAY }}</td>
+                            <td>{{ flight.TAXI_OUT }}</td>
+                            <td>{{ flight.WHEELS_OFF }}</td>
+                            <td>{{ flight.SCHEDULED_TIME }}</td>
+                            <td>{{ flight.DISTANCE }}</td>
+                            <td>{{ flight.TAXI_IN }}</td>
+                            <td>{{ flight.ARRIVAL_TIME }}</td>
+                            <td>{{ flight.DIVERTED }}</td>
+                            <td>{{ flight.CANCELLED }}</td>
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                </section>
+              </div>
+        </div>
+
+         <div id="FlightTableForm2" class="pb-4" style="margin-inline: 15em; display: none">
             <div class="forms">
                 <section class="p-4 text-center pb-4">
                     <div class="form-outline bg-white text-center">
@@ -184,7 +187,7 @@
             </div></div>
 
 
-          <div id="FlightTableForm3" class="pb-4" style="margin-inline: 15em;">
+          <div id="FlightTableForm3" class="pb-4" style="margin-inline: 15em; display: none">
             <div class="forms">
                 <section class="p-4 text-center pb-4">
                     <div class="form-outline bg-white text-center">
