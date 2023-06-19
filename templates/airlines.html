@@ -4,28 +4,103 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <title>Airlines</title>
+
+    <style>
+        /* The snackbar - position it at the bottom and in the middle of the screen */
+        #snackbar {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #3b71ca; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 30px; /* 30px from the bottom */
+        }
+
+        /* Show the snackbar when clicking on a button (class added with JavaScript) */
+        #snackbar.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+          However, delay the fade out process for 2.5 seconds */
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        /* Animations to fade the snackbar in and out */
+        @-webkit-keyframes fadein {
+          from {bottom: 0; opacity: 0;}
+          to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+          from {bottom: 0; opacity: 0;}
+          to {bottom: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+          from {bottom: 30px; opacity: 1;}
+          to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+          from {bottom: 30px; opacity: 1;}
+          to {bottom: 0; opacity: 0;}
+        }
+    </style>
+
+    <script>
+      $(document).ready(function() {
+        const table = document.getElementById('myTable');
+        const rows = table.getElementsByTagName('tr');
+
+        Array.from(rows).forEach((row, index) => {
+          row.addEventListener('click', () => {
+            const cells = row.getElementsByTagName('td');
+            navigator.clipboard.writeText(row.getAttribute("name"));
+            myFunction();
+            //alert("Copied the text: " + row.getAttribute("name"));
+            });
+          });
+        });
+
+        function myFunction() {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+    </script>
   </head>
 
   <body>
-    <nav class="navbar navbar-light navbar-expand-lg" style="background-color: #e3f2fd;">
-        <a class="navbar-brand" href={{url_for("query")}}>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color: #3b71ca;">
+        <a style="margin-left: 1em" class="navbar-brand" href={{url_for("query")}}>
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
             FlightsDB
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="container-fluid" id="navbarNavAltMarkup" style="margin-left: 30em;">
             <div class="navbar-nav">
-              <a class="nav-item nav-link active" href={{url_for("insert")}}>Insert</a>
-              <a class="nav-item nav-link active" href={{url_for("delete")}}>Delete</a>
-                <a class="nav-item nav-link active" href={{url_for("update")}}>Update</a>
-              <a class="nav-item nav-link active" href={{url_for("departure")}}>Departure/Destination</a>
-              <a class="nav-item nav-link active" href={{url_for("airports")}}>Airports</a>
-              <a class="nav-item nav-link active" href={{url_for("airlines")}}>Airlines</a>
+              <strong><a class="nav-item nav-link" href={{url_for("query")}}>Query</a></strong>
+              <strong><a class="nav-item nav-link" href={{url_for("insert")}}>Insert</a></strong>
+              <strong><a class="nav-item nav-link" href={{url_for("delete")}}>Delete</a></strong>
+              <strong><a class="nav-item nav-link" href={{url_for("update")}}>Update</a></strong>
+              <strong><a class="nav-item nav-link" href={{url_for("departure")}}>Departure/Destination</a></strong>
+              <strong><a class="nav-item nav-link" href={{url_for("airports")}}>Airports</a></strong>
+              <strong><a class="nav-item nav-link" href={{url_for("airlines")}}>Airlines</a></strong>
             </div>
         </div>
     </nav>
+
+    <div id="snackbar">ID copied</div>
 
     <div id="airlinesTable" class="airlinesTable ">
         <div class="container-md bg-gray align-self-center" style="margin-top: 2em;">
@@ -33,7 +108,7 @@
               <h3 class="text-center">Total airlines: {{ airlines_size }}</h3>
               <div class="bg-white">
                 <section class="w-100 p-4 text-center">
-                  <table class="table table-striped table-hover d-inline">
+                  <table class="table table-striped table-hover d-inline" id="myTable">
                     <thead>
                       <tr>
                         <th scope="col">IATA Code</th>
@@ -42,7 +117,7 @@
                     </thead>
                     <tbody>
                     {% for airline in airlines %}
-                      <tr>
+                      <tr id="row" name="{{ airline._id }}">
                         <td>{{ airline.IATA_CODE }}</td>
                         <td>{{ airline.AIRLINE }}</td>
                       </tr>

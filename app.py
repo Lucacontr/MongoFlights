@@ -19,7 +19,7 @@ except Exception as e:
 
 @app.route('/')
 def index():  # put application's code here
-    return render_template("query.html")
+    return render_template("homepage.html")
 
 
 @app.route('/query')
