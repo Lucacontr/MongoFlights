@@ -8,8 +8,31 @@
 
   <body>
     <script>
+
       $(document).ready(function() {
+          $('#message').show();
+            {% if flights_size is undefined %}
+               $("#flightsTable").hide();
+            {% else %}
+                $("#flightsTable").show();
+            {% endif %}
+
+            {% if airports_size is undefined %}
+               $("#airportsTable").hide();
+               console.log("hide")
+            {% else %}
+                $("#airportsTable").show();
+                console.log("show")
+            {% endif %}
+
+            {% if airlines_size is undefined %}
+               $("#airlinesTable").hide();
+            {% else %}
+                $("#airlinesTable").show();
+            {% endif %}
+
           $('input[type="radio"]').change(function() {
+              $('#message').hide();
             // Ottieni il valore del radio button selezionato
             var selectedOption = $('input[name="options"]:checked').val();
             $('#FlightTableForm1').hide();
@@ -19,7 +42,19 @@
             // Mostra il contenuto corrispondente all'opzione selezionata
             $('#FlightTableForm' + selectedOption).show();
           });
-        });
+
+          $('input[type="radio"]').ready(function() {
+            // Ottieni il valore del radio button selezionato
+            var selectedOption = $('input[name="options"]:checked').val();
+            $('#FlightTableForm1').hide();
+            $('#FlightTableForm2').hide();
+            $('#FlightTableForm3').hide();
+
+            // Mostra il contenuto corrispondente all'opzione selezionata
+            $('#FlightTableForm' + selectedOption).show();
+          });
+      });
+
   </script>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color: #3b71ca;">
@@ -43,13 +78,13 @@
 
     <div class="bg-white border rounded-5" style="margin-top: 5em">
         <div class="btn-group d-flex align-self-center" style="margin-inline: 15em">
-            <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" checked />
+            <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" {% if radio == 1 or radio is undefined%} checked {% endif %}/>
             <label class="btn btn-secondary" for="1">Flights</label>
 
-            <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off" />
+            <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off" {% if radio == 2 %} checked {% endif %} />
             <label class="btn btn-secondary" for="2">Airports</label>
 
-            <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" />
+            <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off"{% if radio == 3 %} checked {% endif %} />
             <label class="btn btn-secondary" for="3">Airlines</label>
         </div>
 
@@ -67,7 +102,7 @@
                                   <label class="form-label" for="Query">{"field" : "value"}</label>
                                   <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
                                 </div>
-                              <button class="btn btn-primary btn-block mb-4" formaction="/queryFlights">Send</button>
+                                <button class="btn btn-primary btn-block mb-4" formaction="/queryFlights">Send</button>
                             </form>
                         </div>
                     </section>
@@ -78,8 +113,9 @@
 
 
 
-              <h3>Total flights: {{ flights_size }}</h3>
-              <div class="bg-white border rounded-5">
+
+              <div class="bg-white border rounded-5" id="flightsTable">
+                <h3>Total flights: {{ flights_size }}</h3>
                 <section class="w-100 p-4 text-center">
                     <div class="table-responsive">
                       <table class="table table-striped">
@@ -144,13 +180,14 @@
                         <form id="formQuery2" method="POST">
                           <input type="text" id="Query" name="Query" class="form-control" />
                           <label class="form-label" for="Query">{"field" : "value"}</label>
-                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div> <div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
+                            <input type="submit" formaction="/queryAirports" class="btn btn-primary btn-block mb-4">
                         </form>
-                        <input type="submit" formaction="/queryAirlines" class="btn btn-primary btn-block mb-4">
+
                     </div>
-                    <section class="pb-4">
+                    <section class="pb-4" id="airportsTable">
                       <h3>Total airports: {{ airports_size }}</h3>
-                      <div class="bg-white border rounded-5">
+                      <div class="bg-white border rounded-5" >
                         <section class="w-100 p-4 text-center">
                               <table class="table table-striped table-responsive">
                                 <thead>
@@ -192,31 +229,33 @@
                           <input type="text" id="Query" name="Query" class="form-control" />
                           <label class="form-label" for="Query">{"field" : "value"}</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
+                        <input type="submit" formaction="/queryAirlines" class="btn btn-primary btn-block mb-4">
                         </form>
-                        <input type="submit" formaction="/queryAirport" class="btn btn-primary btn-block mb-4">
+
                     </div>
-                    <section class="pb-4">
-                    <h3>Total airlines: {{ airlines_size }}</h3>
-                    <div class="bg-white border rounded-5">
-                    <section class="w-100 p-4 text-center">
-                          <table class="table table-striped table-responsive">
-                            <thead>
-                              <tr>
-                                <th scope="col">IATA_CODE</th>
-                                <th scope="col">Airline</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            {% for airline in airlines %}
-                              <tr>
-                                <td>{{ airline.IATA_CODE }}</td>
-                                <td>{{ airline.Airline }}</td>
-                              </tr>
-                            {% endfor %}
-                            </tbody>
-                          </table>
-                    </section>
-                    </div>
+                    <section class="pb-4" id="airlinesTable">
+                        <h3>Total airlines: {{ airlines_size }}</h3>
+                        <div class="bg-white border rounded-5" >
+
+                        <section class="w-100 p-4 text-center">
+                              <table class="table table-striped table-responsive">
+                                <thead>
+                                  <tr>
+                                    <th scope="col">IATA_CODE</th>
+                                    <th scope="col">Airline</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                {% for airline in airlines %}
+                                  <tr>
+                                    <td>{{ airline.IATA_CODE }}</td>
+                                    <td>{{ airline.Airline }}</td>
+                                  </tr>
+                                {% endfor %}
+                                </tbody>
+                              </table>
+                        </section>
+                        </div>
                     </section> </section>
           </div>
     </div>

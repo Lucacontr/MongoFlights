@@ -9,7 +9,7 @@ import pymongo
 app = Flask(__name__)
 try:
     client = pymongo.MongoClient("localhost:27017")
-    db = client["FlightsDB"]
+    db = client["Flights"]
     flights_collection = db.get_collection("Flights")
     airports_collection = db.get_collection("Airports")
     airlines_collection = db.get_collection("Airlines")
@@ -73,7 +73,7 @@ def insertFlight():
     }
 
     flights_collection.insert_one(document)
-    return render_template("insert.html")
+    return render_template("insert.html", radio=1)
 
 
 @app.route('/insertAirport', methods=['POST'])
@@ -88,7 +88,7 @@ def insertAirport():
     }
 
     airports_collection.insert_one(document)
-    return render_template("insert.html")
+    return render_template("insert.html", radio=2)
 
 
 @app.route('/insertAirline', methods=['POST'])
@@ -100,7 +100,7 @@ def insertAirline():
     }
 
     airlines_collection.insert_one(document)
-    return render_template("insert.html")
+    return render_template("insert.html", radio=3)
 
 
 @app.route('/departureSearch', methods=['POST'])
@@ -139,15 +139,15 @@ def queryFlights():
         parsed_query = loads(query)
     except (BSONError, ValueError) as e:
         print('Invalid query:', e)
-        return render_template("query.html", message="Invalid Query")
+        return render_template("query.html", message="Invalid Query", radio=1)
     else:
         if flights_collection.count_documents(parsed_query) == 0:
-            return render_template("query.html", message="No document match the given query")
+            return render_template("query.html", message="No document match the given query", radio=1)
         else:
             result = list(flights_collection.find(parsed_query))
             if len(result) > 100:
                 result = result[0:299]
-            return render_template("query.html", flights=result, flights_size=len(result))
+            return render_template("query.html", flights=result, flights_size=len(result), radio=1)
 
 @app.route('/queryAirports', methods=['POST'])
 def queryAirports():
@@ -156,15 +156,15 @@ def queryAirports():
         parsed_query = loads(query)
     except (BSONError, ValueError) as e:
         print('Invalid query:', e)
-        return render_template("query.html", message="Invalid Query")
+        return render_template("query.html", message="Invalid Query", radio=2)
     else:
         if airports_collection.count_documents(parsed_query) == 0:
-            return render_template("query.html", message="No document match the given query")
+            return render_template("query.html", message="No document match the given query", radio=2)
         else:
             result = list(airports_collection.find(parsed_query))
             if len(result) > 100:
                 result = result[0:299]
-            return render_template("query.html", airports=result, airports_size=len(result))
+            return render_template("query.html", airports=result, airports_size=len(result), radio=2)
 
 @app.route('/queryAirlines', methods=['POST'])
 def queryAirlines():
@@ -173,15 +173,15 @@ def queryAirlines():
         parsed_query = loads(query)
     except (BSONError, ValueError) as e:
         print('Invalid query:', e)
-        return render_template("query.html", message="Invalid Query")
+        return render_template("query.html", message="Invalid Query", radio=3)
     else:
         if airlines_collection.count_documents(parsed_query) == 0:
-            return render_template("query.html", message="No document match the given query")
+            return render_template("query.html", message="No document match the given query", radio=3)
         else:
             result = list(airlines_collection.find(parsed_query))
             if len(result) > 100:
                 result = result[0:299]
-            return render_template("query.html", airlines=result, airlines_size=len(result))
+            return render_template("query.html", airlines=result, airlines_size=len(result), radio=3)
 
 
 @app.route('/deleteFlight', methods=['POST'])
@@ -191,14 +191,14 @@ def deleteFlight():
         parsed_query = loads(query)
     except (BSONError, ValueError) as e:
         print('Invalid query:', e)
-        return render_template("delete.html", message="Invalid Query")
+        return render_template("delete.html", message="Invalid Query", radio=1)
     else:
         # Perform a sample find operation to validate the query
         result = flights_collection.delete_many(parsed_query)
         if result.deleted_count == 0:
-            return render_template("delete.html", message="No document match the given query")
+            return render_template("delete.html", message="No document match the given query", radio=1)
         else:
-            return render_template("delete.html", message="Document deleted successfully")
+            return render_template("delete.html", message="Document deleted successfully", radio=1)
 
 
 @app.route('/deleteAirport', methods=['POST'])
@@ -208,14 +208,14 @@ def deleteAirport():
         parsed_query = loads(query)
     except (BSONError, ValueError) as e:
         print('Invalid query:', e)
-        return render_template("delete.html", message="Invalid Query")
+        return render_template("delete.html", message="Invalid Query", radio=2)
     else:
         # Perform a sample find operation to validate the query
         result = airports_collection.delete_many(parsed_query)
         if result.deleted_count == 0:
-            return render_template("delete.html", message="No document match the given query")
+            return render_template("delete.html", message="No document match the given query", radio=2)
         else:
-            return render_template("delete.html", message="Document deleted successfully")
+            return render_template("delete.html", message="Document deleted successfully", radio=2)
 
 
 @app.route('/deleteAirline', methods=['POST'])
@@ -225,14 +225,14 @@ def deleteAirline():
         parsed_query = loads(query)
     except (BSONError, ValueError) as e:
         print('Invalid query:', e)
-        return render_template("delete.html", message="Invalid Query")
+        return render_template("delete.html", message="Invalid Query", radio=3)
     else:
         # Perform a sample find operation to validate the query
         result = airlines_collection.delete_many(parsed_query)
         if result.deleted_count == 0:
-            return render_template("delete.html", message="No document match the given query")
+            return render_template("delete.html", message="No document match the given query", radio=3)
         else:
-            return render_template("delete.html", message="Document deleted successfully")
+            return render_template("delete.html", message="Document deleted successfully", radio=3)
 
 
 @app.route('/idAirports', methods=['POST'])
@@ -244,9 +244,9 @@ def idAirport():
 
     # Controllo se il documento è stato trovato
     if document is not None:
-        return render_template("update.html", airport=document, airline=None, flight=None)
+        return render_template("update.html", airport=document, airline=None, flight=None, radio=2)
     else:
-        return render_template("update.html", airport=document, airline=None, flight=None, message="No document match the given ID")
+        return render_template("update.html", radio=2, airport=document, airline=None, flight=None, message="No document match the given ID")
 
 
 @app.route('/idAirlines', methods=['POST'])
@@ -259,9 +259,9 @@ def idAirlines():
 
     # Controllo se il documento è stato trovato
     if document is not None:
-        return render_template("update.html", airline=document, airport=None, flight=None)
+        return render_template("update.html", airline=document, airport=None, flight=None, radio=3)
     else:
-        return render_template("update.html", airline=document, airport=None, flight=None, message="No document match the given ID")
+        return render_template("update.html", airline=document, airport=None, flight=None, message="No document match the given ID", radio=3)
 
 
 @app.route('/idFlights', methods=['POST'])
@@ -273,9 +273,9 @@ def idFlights():
     print(id)
     # Controllo se il documento è stato trovato
     if document is not None:
-        return render_template("update.html", airport=None, airline=None, flight=document)
+        return render_template("update.html", airport=None, airline=None, flight=document, radio=1)
     else:
-        return render_template("update.html", airport=None, airline=None, flight=document, message="No document match the given ID")
+        return render_template("update.html", airport=None, airline=None, flight=document, message="No document match the given ID", radio=1)
 
 
 @app.route('/updateFlights', methods=['POST'])
@@ -307,12 +307,12 @@ def updateFlight():
                 }
 
     result = flights_collection.update_one( {'_id': ObjectId(id)}, document)
-
+    print(result)
     if result.modified_count > 0:
         message = "Document updated successfully."
     else:
         message = "No document found matching the given query."
-    return render_template("update.html", airport="", airline="", flight="", message=message)
+    return render_template("update.html", airport=None, airline=None, flight=None, message=message, radio=1)
 
 
 @app.route('/updateAirports', methods=['POST'])
@@ -337,7 +337,7 @@ def updateAirports():
         message = "Document updated successfully."
     else:
         message = "No document found matching the given query."
-    return render_template("update.html", airport="", airline="", flight="", message=message)
+    return render_template("update.html", airport=None, airline=None, flight=None, message=message, radio=2)
 
 
 @app.route('/updateAirlines', methods=['POST'])
@@ -355,7 +355,7 @@ def updateAirlines():
         message = "Document updated successfully."
     else:
         message = "No document found matching the given query."
-    return render_template("update.html", airline="", flight="", airport="", message=message)
+    return render_template("update.html", airline=None, flight=None, airport=None, message=message, radio=3)
 
 
 if __name__ == '__main__':

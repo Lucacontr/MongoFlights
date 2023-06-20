@@ -10,7 +10,19 @@
 
   <script>
       $(document).ready(function() {
+          $('#message').show();
           $('input[type="radio"]').change(function() {
+            $('#message').hide();
+            var selectedOption = $('input[name="options"]:checked').val();
+            $('#formQuery1').hide();
+            $('#formQuery2').hide();
+            $('#formQuery3').hide();
+
+            // Mostra il contenuto corrispondente all'opzione selezionata
+            $('#formQuery' + selectedOption).show();
+          });
+
+          $('input[type="radio"]').ready(function() {
             // Ottieni il valore del radio button selezionato
             var selectedOption = $('input[name="options"]:checked').val();
             $('#formQuery1').hide();
@@ -43,13 +55,13 @@
 
     <div class="bg-white border rounded-5">
         <div class="btn-group d-flex align-self-center" style="margin-inline: 35em; margin-top: 5em">
-            <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" checked />
+            <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" {% if radio == 1 or radio is undefined%} checked {% endif %} />
             <label class="btn btn-secondary" for="1">Flights</label>
 
-            <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off" />
+            <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off"{% if radio == 2 %} checked {% endif %}/>
             <label class="btn btn-secondary" for="2">Airports</label>
 
-            <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" />
+            <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" {% if radio == 3 %} checked {% endif %}/>
             <label class="btn btn-secondary" for="3">Airlines</label>
         </div>
 
@@ -85,7 +97,7 @@
                         <input type="submit" formaction="/deleteAirline" class="btn btn-primary btn-block mb-4">
                         </form>
 
-                        <h3> {{ message }}</h3>
+                        <h3 id="message">  {{ message }}</h3>
                     </div>
                 </section>
             </div>

@@ -19,6 +19,16 @@
             // Mostra il contenuto corrispondente all'opzione selezionata
             $('#content' + selectedOption).show();
           });
+          $('input[type="radio"]').ready(function() {
+            // Ottieni il valore del radio button selezionato
+            var selectedOption = $('input[name="options"]:checked').val();
+            $('#content1').hide();
+            $('#content2').hide();
+            $('#content3').hide();
+
+            // Mostra il contenuto corrispondente all'opzione selezionata
+            $('#content' + selectedOption).show();
+          });
         });
   </script>
 
@@ -43,13 +53,13 @@
     <div id="searchFlight" class="searchFlight" style="margin-top: 5em;">
           <div class="bg-white border rounded-5">
             <div class="btn-group d-flex align-self-center" style="margin-inline: 15em">
-                <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" checked />
+                <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" {% if radio == 1 or radio is undefined%} checked {% endif %} />
                 <label class="btn btn-secondary" for="1">Flights</label>
 
-                <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off" />
+                <input type="radio" class="btn-check" name="options" id="2" value="2"  autocomplete="off" {% if radio == 2 %} checked {% endif %} />
                 <label class="btn btn-secondary" for="2">Airports</label>
 
-                <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" />
+                <input type="radio" class="btn-check" name="options" id="3" value="3"  autocomplete="off" {% if radio == 3 %} checked {% endif %} />
                 <label class="btn btn-secondary" for="3">Airlines</label>
             </div>
 
@@ -61,19 +71,19 @@
                       <div class="row mb-4">
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Year" name="Year" class="form-control">
+                            <input type="text" id="Year" name="Year" class="form-control" value="0">
                             <label class="form-label" for="Year" style="margin-left: 0px;">Year</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 35px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Month" name="Month" class="form-control">
+                            <input type="text" id="Month" name="Month" class="form-control" value="0">
                             <label class="form-label" for="Month" style="margin-left: 0px;">Month</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 42px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Day" name="Day" class="form-control">
+                            <input type="text" id="Day" name="Day" class="form-control" value="0">
                             <label class="form-label" for="Day" style="margin-left: 0px;">Day</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 30px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
@@ -99,7 +109,7 @@
 
                       <!-- Number input -->
                       <div class="form-outline mb-4">
-                        <input type="number" id="Time" name="Time" class="form-control">
+                        <input type="number" id="Time" name="Time" class="form-control" value="0">
                         <label class="form-label" for="Time" style="margin-left: 0px;">Air Time</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 54px;"></div><div class="form-notch-trailing"></div></div></div>
 
