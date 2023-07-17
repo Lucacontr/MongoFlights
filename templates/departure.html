@@ -19,7 +19,7 @@
 
   </script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color: #3b71ca;">
-        <a style="margin-left: 1em" class="navbar-brand" href={{url_for("query")}}>
+        <a style="margin-left: 1em" class="navbar-brand" href={{url_for("homepage")}}>
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
             FlightsDB
         </a>
@@ -38,8 +38,12 @@
 
     <div id="searchFlight" class="searchFlight">
 
-          <div class="bg-white">
+        <div class="bg-white text-center" id="messageDiv" style="margin-top: 2.5em; color: #3b71ca">
+            <h1>Departure/Destination</h1>
+            <h6>Search your flights giving the following inputs</h6>
+        </div>
 
+          <div class="bg-white" style="margin-top: 3em">
             <section class="pb-4">
               <div class="forms">
                   <section class="w-100 p-4 text-center pb-4">
@@ -48,19 +52,19 @@
                       <div class="row mb-4">
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Year" name="Year" class="form-control">
+                            <input type="text" id="Year" name="Year" class="form-control active">
                             <label class="form-label" for="Year" style="margin-left: 0px;">Year</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 33px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Month" name="Month"  class="form-control">
+                            <input type="text" id="Month" name="Month"  class="form-control active">
                             <label class="form-label" for="Month" style="margin-left: 0px;">Month</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 42px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Day" name="Day" class="form-control">
+                            <input type="text" id="Day" name="Day" class="form-control active">
                             <label class="form-label" for="Day" style="margin-left: 0px;">Day</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 28px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
@@ -68,13 +72,13 @@
 
                       <!-- Text input -->
                       <div class="form-outline mb-4">
-                        <input type="text" id="Origin" name="Origin" class="form-control">
+                        <input type="text" id="Origin" name="Origin" class="form-control active">
                         <label class="form-label" for="Origin" style="margin-left: 0px;">Origin Airport</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 80px;"></div><div class="form-notch-trailing"></div></div></div>
 
                       <!-- Email input -->
                       <div class="form-outline mb-4">
-                        <input type="text" id="Destination" name="Destination" class="form-control">
+                        <input type="text" id="Destination" name="Destination" class="form-control active">
                         <label class="form-label" for="Destination" style="margin-left: 0px;">Destination Airport</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div></div>
 
@@ -87,7 +91,6 @@
               </div>
           </section>
           <div>
-          <div id="errors" class="errors"></div>
 
           <div id="flightsTable" class="flightsTable">
           <section class="pb-4">
@@ -97,25 +100,25 @@
                   <table class="table table-striped table-responsive">
                     <thead>
                       <tr>
-                        <th scope="col">Year</th>
-                        <th scope="col">Month</th>
-                        <th scope="col">Day</th>
-                        <th scope="col">Airline</th>
-                        <th scope="col">Flight Number</th>
-                        <th scope="col">Tail Number</th>
-                        <th scope="col">Origin airport</th>
-                        <th scope="col">Destination airport</th>
-                        <th scope="col">Scheduled Departure</th>
-                        <th scope="col">Departure Time</th>
-                        <th scope="col">Departure Delay</th>
-                        <th scope="col">Taxi Out</th>
-                        <th scope="col">Wheels Off</th>
-                        <th scope="col">Scheduled Time</th>
-                        <th scope="col">Distance</th>
-                        <th scope="col">Taxi in</th>
-                        <th scope="col">Arrival Time</th>
-                        <th scope="col">Diverted</th>
-                        <th scope="col">Cancelled</th>
+                            <th scope="col"><strong>Year</strong></th>
+                            <th scope="col"><strong>Month</strong></th>
+                            <th scope="col"><strong>Day</strong></th>
+                            <th scope="col"><strong>Airline</strong></th>
+                            <th scope="col"><strong title="Flight Identifier">Flight Number</strong></th>
+                            <th scope="col"><strong title="Aircraft Identifier">Tail Number</strong></th>
+                            <th scope="col"><strong>Origin airport</strong></th>
+                            <th scope="col"><strong>Destination airport</strong></th>
+                            <th scope="col"><strong>Scheduled Departure</strong></th>
+                            <th scope="col"><strong>Departure Time</strong></th>
+                            <th scope="col"><strong>Departure Delay</strong></th>
+                            <th scope="col"><strong title="The time duration elapsed between departure from the origin airport gate and wheels off">Taxi Out</strong></th>
+                            <th scope="col"><strong title="The time point that the aircraft's wheels leave the ground">Wheels Off</strong></th>
+                            <th scope="col"><strong title="Planned time amount needed for the flight trip">Scheduled Time</strong></th>
+                            <th scope="col"><strong title="Distance between two airports in miles">Distance</strong></th>
+                            <th scope="col"><strong title="The time duration elapsed between wheels-on and gate arrival at the destination airport">Taxi in</strong></th>
+                            <th scope="col"><strong>Arrival Time</strong></th>
+                            <th scope="col"><strong title="If aircraft have landed on airport that is out of schedule">Diverted</strong></th>
+                            <th scope="col"><strong title="If flight is canceled">Cancelled</strong></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -152,6 +155,10 @@
 
       </div>
     </div>
+    <div class="bg-white text-center" id="messageDiv">
+            <h3 id="message">{{ message }}</h3>
+    </div>
+
 
     </div>
   </body>

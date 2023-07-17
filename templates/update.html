@@ -54,7 +54,7 @@
   </script>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color: #3b71ca;">
-        <a style="margin-left: 1em" class="navbar-brand" href={{url_for("query")}}>
+        <a style="margin-left: 1em" class="navbar-brand" href={{url_for("homepage")}}>
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
             FlightsDB
         </a>
@@ -71,8 +71,13 @@
         </div>
     </nav>
 
-    <div class="bg-white" style="margin-inline: 15em;">
-        <div class="btn-group d-flex align-self-center" style="margin-inline: 30em; margin-top: 5em">
+        <div class="bg-white text-center" id="messageDiv" style="margin-top: 2.5em; color: #3b71ca">
+            <h1>Update</h1>
+            <h6>Update a certain document by giving its ID</h6>
+        </div>
+
+    <div class="bg-white" style="margin-top: 3em">
+        <div class="btn-group d-flex align-self-center" style="margin-inline: 40em">
             <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" {% if radio == 1 or radio is undefined%} checked {% endif %} />
             <label class="btn btn-secondary" for="1">Flights</label>
 
@@ -83,27 +88,16 @@
             <label class="btn btn-secondary" for="3">Airlines</label>
         </div>
 
-        <h3 id="message"> {{ message }}</h3>
-
           <section id="FlightTableForm1" class="pb-4 FlightTableForm1" style="display: none">
             <div class="forms">
                 <section class="p-4 text-center pb-4">
                     <div class="form-outline bg-white text-center">
-                        <form id="formQuery1" method="POST">
-                          <div class="form-outline">
-                              <div class="row">
-                                  <div class="col">
-                                      <input type="text" id="ID" name="ID" class="form-control" />
-                                      <label class="form-label" for="ID">ID</label>
-                                      <div class="form-notch stef" style="height: 60%!important;"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 20px;"></div><div class="form-notch-trailing"></div></div>
-                                  </div>
-                                  <div class="col">
-                                    <input type="submit" formaction="/idFlights" class="btn btn-primary btn-block mb-4">
-                                  </div>
-                              </div>
-                          </div>
-                        </form>
-                    </div>
+                <form id="formQuery1" method="POST">
+                  <input type="text" id="ID" name="ID" class="form-control" />
+                  <label class="form-label" for="ID">ID</label>
+                  <input type="submit" formaction="/idFlights" class="btn btn-primary btn-block mb-4" value="Send">
+                </form>
+            </div>
 
                     <section class="pb-4" id="flightsTable">
                     <div class="bg-white border rounded-5">
@@ -114,19 +108,19 @@
                           <div class="row mb-4">
                             <div class="col">
                               <div class="form-outline">
-                                <input type="text" id="year" name="year" class="form-control" value={{ flight.YEAR }}>
+                                <input type="text" id="year" name="year" class="form-control active" value={{ flight.YEAR }}>
                                 <label class="form-label" for="year" style="margin-left: 0px;" >Year</label>
                                 <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 35px;"></div><div class="form-notch-trailing"></div></div></div>
                             </div>
                             <div class="col">
                               <div class="form-outline">
-                                <input type="text" id="month" name="month" class="form-control"  value={{ flight.MONTH }}>
+                                <input type="text" id="month" name="month" class="form-control active"  value={{ flight.MONTH }}>
                                 <label class="form-label" for="month" style="margin-left: 0px;">Month</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 42px;"></div><div class="form-notch-trailing"></div></div></div>
                             </div>
                             <div class="col">
                               <div class="form-outline">
-                                <input type="text" id="day" name="day" class="form-control" value={{ flight.DAY }}>
+                                <input type="text" id="day" name="day" class="form-control active" value={{ flight.DAY }}>
                                 <label class="form-label" for="day" style="margin-left: 0px;">Day</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 30px;"></div><div class="form-notch-trailing"></div></div></div>
                             </div>
@@ -135,24 +129,24 @@
                         <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="airline" name="airline" class="form-control" value={{ flight.AIRLINE }}>
+                                <input type="text" id="airline" name="airline" class="form-control active" value={{ flight.AIRLINE }}>
                                 <label class="form-label" for="airline" style="margin-left: 0px;">Airline</label>
-                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
+                              <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 50px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
 
                           <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="flight" name="flight" class="form-control" value={{ flight.FLIGHT_NUMBER }}>
+                                <input type="text" id="flight" name="flight" class="form-control active" value={{ flight.FLIGHT_NUMBER }}>
                                 <label class="form-label" for="flight" style="margin-left: 0px;">Flight Number</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
                           <!-- Email input -->
                           <div class="col">
                           <div class="form-outline mb-4">
-                            <input type="text" id="tail" name="tail" class="form-control" value={{ flight.TAIL_NUMBER }}>
+                            <input type="text" id="tail" name="tail" class="form-control active" value={{ flight.TAIL_NUMBER }}>
                             <label class="form-label" for="tail" style="margin-left: 0px;">Tail Number</label>
-                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div></div>
+                          <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 80px;"></div><div class="form-notch-trailing"></div></div></div>
                             </div>
                         </div>
 
@@ -161,7 +155,7 @@
                        <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="origin" name="origin" class="form-control" value={{ flight.ORIGIN_AIRPORT }}>
+                                <input type="text" id="origin" name="origin" class="form-control active" value={{ flight.ORIGIN_AIRPORT }}>
                                 <label class="form-label" for="origin" style="margin-left: 0px;">Origin Airport</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -169,7 +163,7 @@
                           <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="destination" name="destination" class="form-control" value={{ flight.DESTINATION_AIRPORT }}>
+                                <input type="text" id="destination" name="destination" class="form-control active" value={{ flight.DESTINATION_AIRPORT }}>
                                 <label class="form-label" for="destination" style="margin-left: 0px;">Destination Airport</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -179,22 +173,21 @@
                        <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="departure" name="departure" class="form-control" value={{ flight.SCHEDULED_DEPARTURE }}>
+                                <input type="text" id="departure" name="departure" class="form-control active" value={{ flight.SCHEDULED_DEPARTURE }}>
                                 <label class="form-label" for="departure" style="margin-left: 0px;">Scheduled departure</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
 
-                          <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="depTime" name="depTime" class="form-control" value={{ flight.DEPARTURE_TIME }}>
+                                <input type="text" id="depTime" name="depTime" class="form-control active" value={{ flight.DEPARTURE_TIME }}>
                                 <label class="form-label" for="depTime" style="margin-left: 0px;">Departure Time</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
 
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="depDelay" name="depDelay" class="form-control" value={{ flight.DEPARTURE_DELAY }}>
+                                <input type="text" id="depDelay" name="depDelay" class="form-control active" value={{ flight.DEPARTURE_DELAY }}>
                                 <label class="form-label" for="depDelay" style="margin-left: 0px;">Departure Time</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -203,7 +196,7 @@
                        <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="taxi" name="taxi" class="form-control" value={{ flight.TAXI_OUT }}>
+                                <input type="text" id="taxi" name="taxi" class="form-control active" value={{ flight.TAXI_OUT }}>
                                 <label class="form-label" for="taxi" style="margin-left: 0px;">Taxi Out</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -211,14 +204,14 @@
                           <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="wheels" name="wheels" class="form-control" value={{ flight.WHEELS_OFF }}>
+                                <input type="text" id="wheels" name="wheels" class="form-control active" value={{ flight.WHEELS_OFF }}>
                                 <label class="form-label" for="wheels" style="margin-left: 0px;">Wheels Off</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
 
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="schedTime" name="schedTime" class="form-control" value={{ flight.SCHEDULED_TIME }}>
+                                <input type="text" id="schedTime" name="schedTime" class="form-control active" value={{ flight.SCHEDULED_TIME }}>
                                 <label class="form-label" for="schedTime" style="margin-left: 0px;">Scheduled Time</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -227,7 +220,7 @@
                        <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="distance" name="distance" class="form-control" value={{ flight.DISTANCE }}>
+                                <input type="text" id="distance" name="distance" class="form-control active" value={{ flight.DISTANCE }}>
                                 <label class="form-label" for="distance" style="margin-left: 0px;">Distance</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -235,14 +228,14 @@
                           <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="taxiIn" name="taxiIn" class="form-control" value={{ flight.TAXI_IN }}>
+                                <input type="text" id="taxiIn" name="taxiIn" class="form-control active" value={{ flight.TAXI_IN }}>
                                 <label class="form-label" for="taxiIn" style="margin-left: 0px;">Taxi In</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
 
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="arrTime" name="arrTime" class="form-control" value={{ flight.ARRIVAL_TIME }}>
+                                <input type="text" id="arrTime" name="arrTime" class="form-control active" value={{ flight.ARRIVAL_TIME }}>
                                 <label class="form-label" for="arrTime" style="margin-left: 0px;">Arrival Time</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -251,7 +244,7 @@
                        <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="diverted" name="diverted" class="form-control" value={{ flight.DIVERTED }}>
+                                <input type="text" id="diverted" name="diverted" class="form-control active" value={{ flight.DIVERTED }}>
                                 <label class="form-label" for="diverted" style="margin-left: 0px;">Diverted</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -259,7 +252,7 @@
                           <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="cancelled" name="cancelled" class="form-control" value={{ flight.CANCELLED }}>
+                                <input type="text" id="cancelled" name="cancelled" class="form-control active" value={{ flight.CANCELLED }}>
                                 <label class="form-label" for="cancelled" style="margin-left: 0px;">Cancelled</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -276,8 +269,6 @@
                 </section>
             </div></section>
 
-
-
       <section id="FlightTableForm2" class="FlightTableForm2" style="display:none;">
             <div class="forms">
                 <section class="p-4 text-center pb-4">
@@ -285,7 +276,7 @@
                 <form id="formQuery2" method="POST">
                   <input type="text" id="ID" name="ID" class="form-control" />
                   <label class="form-label" for="ID">ID</label>
-                  <input type="submit" formaction="/idAirports" class="btn btn-primary btn-block mb-4">
+                  <input type="submit" formaction="/idAirports" class="btn btn-primary btn-block mb-4" value="Send">
                 </form>
             </div>
 
@@ -296,7 +287,7 @@
                   <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control" value={{ airport.IATA_CODE }}>
+                                <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control active" value={{ airport.IATA_CODE }}>
                                 <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA Code</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -304,7 +295,7 @@
                           <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="Name" name="Name" class="form-control" value={{ airport.AIRPORT }}>
+                                <input type="text" id="Name" name="Name" class="form-control active" value={{ airport.AIRPORT }}>
                                 <label class="form-label" for="Name" style="margin-left: 0px;">Airport</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -313,7 +304,7 @@
                   <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="City" name="City" class="form-control" value={{ airport.CITY }}>
+                                <input type="text" id="City" name="City" class="form-control active" value={{ airport.CITY }}>
                                 <label class="form-label" for="City" style="margin-left: 0px;">City</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -321,14 +312,14 @@
                           <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="State" name="State" class="form-control" value={{ airport.STATE }}>
+                                <input type="text" id="State" name="State" class="form-control active" value={{ airport.STATE }}>
                                 <label class="form-label" for="State" style="margin-left: 0px;">State</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
 
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="Country" name="Country" class="form-control" value={{ airport.COUNTRY }}>
+                                <input type="text" id="Country" name="Country" class="form-control active" value={{ airport.COUNTRY }}>
                                 <label class="form-label" for="Country" style="margin-left: 0px;">Country</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -338,7 +329,7 @@
                     <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="Latitude" name="Latitude" class="form-control" value={{ airport.LATITUDE }}>
+                                <input type="text" id="Latitude" name="Latitude" class="form-control active" value={{ airport.LATITUDE }}>
                                 <label class="form-label" for="Latitude" style="margin-left: 0px;">Latitude</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -346,7 +337,7 @@
                           <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="Longitude" name="Longitude" class="form-control" value={{ airport.LONGITUDE }}>
+                                <input type="text" id="Longitude" name="Longitude" class="form-control active" value={{ airport.LONGITUDE }}>
                                 <label class="form-label" for="Longitude" style="margin-left: 0px;">Longitude</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -371,7 +362,7 @@
                 <form id="formQuery3" method="POST">
                   <input type="text" id="ID" name="ID" class="form-control" />
                   <label class="form-label" for="ID">ID</label>
-                  <input type="submit" formaction="/idAirlines" class="btn btn-primary btn-block mb-4">
+                  <input type="submit" formaction="/idAirlines" class="btn btn-primary btn-block mb-4" value="Send">
                 </form>
             </div>
           <section class="pb-4" id="airlinesTable">
@@ -381,7 +372,7 @@
                   <div class="row mb-4">
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control" value={{ airline.IATA_CODE }}>
+                                <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control active" value={{ airline.IATA_CODE }}>
                                 <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA Code</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -389,7 +380,7 @@
                           <!-- Text input -->
                           <div class="col">
                               <div class="form-outline mb-4">
-                                <input type="text" id="Name" name="Name" class="form-control" value={{ airline.AIRLINE }}>
+                                <input type="text" id="Name" name="Name" class="form-control active" value={{ airline.AIRLINE }}>
                                 <label class="form-label" for="Name" style="margin-left: 0px;">Name</label>
                               <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
                           </div>
@@ -404,7 +395,11 @@
                     </div>
                     </section>
                 </section>
-            </div></section></div>
+            </div></section>
+        <div class="bg-white text-center" id="messageDiv">
+            <h3 id="message"> {{ message }}</h3>
+        </div>
+    </div>
 
   </body>
 </html>

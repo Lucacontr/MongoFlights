@@ -33,7 +33,7 @@
   </script>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color: #3b71ca;">
-        <a style="margin-left: 1em" class="navbar-brand" href={{url_for("query")}}>
+        <a style="margin-left: 1em" class="navbar-brand" href={{url_for("homepage")}}>
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
             <h4>FlightsDB</h4>
         </a>
@@ -50,9 +50,14 @@
         </div>
     </nav>
 
-    <div id="searchFlight" class="searchFlight" style="margin-top: 5em;">
-          <div class="bg-white">
-            <div class="btn-group d-flex align-self-center" style="margin-inline: 30em">
+    <div id="searchFlight" class="searchFlight" style="margin-top: 2.5em;">
+        <div class="bg-white text-center" id="messageDiv" style="margin-top: 2.5em; color: #3b71ca">
+            <h1>Insert</h1>
+            <h6>Insert your document in the corresponding collection</h6>
+        </div>
+
+          <div class="bg-white" style="margin-top: 3em">
+            <div class="btn-group d-flex align-self-center" style="margin-inline: 40em">
                 <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" {% if radio == 1 or radio is undefined%} checked {% endif %} />
                 <label class="btn btn-secondary" for="1">Flights</label>
 
@@ -71,19 +76,19 @@
                       <div class="row mb-4">
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Year" name="Year" class="form-control">
+                            <input type="text" id="Year" name="Year" class="form-control active">
                             <label class="form-label" for="Year" style="margin-left: 0px;">Year</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 35px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Month" name="Month" class="form-control">
+                            <input type="text" id="Month" name="Month" class="form-control active">
                             <label class="form-label" for="Month" style="margin-left: 0px;">Month</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 42px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Day" name="Day" class="form-control">
+                            <input type="text" id="Day" name="Day" class="form-control active">
                             <label class="form-label" for="Day" style="margin-left: 0px;">Day</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 30px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
@@ -91,25 +96,25 @@
 
                       <!-- Text input -->
                       <div class="form-outline mb-4">
-                        <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control">
+                        <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control active">
                         <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA_CODE Airline</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 120px;"></div><div class="form-notch-trailing"></div></div></div>
 
                       <!-- Text input -->
                       <div class="form-outline mb-4">
-                        <input type="text" id="Origin" name="Origin" class="form-control">
+                        <input type="text" id="Origin" name="Origin" class="form-control active">
                         <label class="form-label" for="Origin" style="margin-left: 0px;">Origin Airport</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 85px;"></div><div class="form-notch-trailing"></div></div></div>
 
                       <!-- Email input -->
                       <div class="form-outline mb-4">
-                        <input type="text" id="Destination" name="Destination" class="form-control">
+                        <input type="text" id="Destination" name="Destination" class="form-control active">
                         <label class="form-label" for="Destination" style="margin-left: 0px;">Destination Airport</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div></div>
 
                       <!-- Number input -->
                       <div class="form-outline mb-4">
-                        <input type="number" id="Time" name="Time" class="form-control">
+                        <input type="number" id="Time" name="Time" class="form-control active">
                         <label class="form-label" for="Time" style="margin-left: 0px;">Air Time</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 54px;"></div><div class="form-notch-trailing"></div></div></div>
 
@@ -122,19 +127,19 @@
                       <div class="row mb-4">
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="IATA_CODE"  name="IATA_CODE" class="form-control">
+                            <input type="text" id="IATA_CODE"  name="IATA_CODE" class="form-control active">
                             <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA_CODE</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 76px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Name"  name="Name" class="form-control">
+                            <input type="text" id="Name"  name="Name" class="form-control active">
                             <label class="form-label" for="Name" style="margin-left: 0px;">Airport name</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 80px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="City" name="City" class="form-control">
+                            <input type="text" id="City" name="City" class="form-control active">
                             <label class="form-label" for="City" style="margin-left: 0px;">City</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 28px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
@@ -142,13 +147,13 @@
 
                       <!-- Text input -->
                       <div class="form-outline mb-4">
-                        <input type="text" id="State" name="State" class="form-control">
+                        <input type="text" id="State" name="State" class="form-control active">
                         <label class="form-label" for="State" style="margin-left: 0px;">State</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 35px;"></div><div class="form-notch-trailing"></div></div></div>
 
                       <!-- Text input -->
                       <div class="form-outline mb-4">
-                        <input type="text" id="Country" name="Country" class="form-control">
+                        <input type="text" id="Country" name="Country" class="form-control active">
                         <label class="form-label" for="Country" style="margin-left: 0px;">Country</label>
                       <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 50px;"></div><div class="form-notch-trailing"></div></div></div>
 
@@ -161,13 +166,13 @@
                       <div class="row mb-4">
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control">
+                            <input type="text" id="IATA_CODE" name="IATA_CODE" class="form-control active">
                             <label class="form-label" for="IATA_CODE" style="margin-left: 0px;">IATA_CODE</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 76px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
                         <div class="col">
                           <div class="form-outline">
-                            <input type="text" id="Name" name="Name" class="form-control">
+                            <input type="text" id="Name" name="Name" class="form-control active">
                             <label class="form-label" for="Name" style="margin-left: 0px;">Airline Name</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 75px;"></div><div class="form-notch-trailing"></div></div></div>
                         </div>
@@ -180,7 +185,9 @@
                   </section>
               </div>
           </section>
-          <div id="errors" class="errors"></div>
+          <div class="bg-white text-center" id="messageDiv">
+                <h3 id="message">{{ message }}</h3>
+          </div>
     </div>
 </div>
 

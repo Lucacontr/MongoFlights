@@ -9,7 +9,7 @@ import pymongo
 app = Flask(__name__)
 try:
     client = pymongo.MongoClient("localhost:27017")
-    db = client["Flights"]
+    db = client["FlightsDB"]
     flights_collection = db.get_collection("Flights")
     airports_collection = db.get_collection("Airports")
     airlines_collection = db.get_collection("Airlines")
@@ -18,17 +18,24 @@ except Exception as e:
 
 
 @app.route('/')
-def index():  # put application's code here
+def index():
+    return render_template("homepage.html")
+
+
+@app.route('/homepage')
+def homepage():
     return render_template("homepage.html")
 
 
 @app.route('/query')
-def query():  # put application's code here
+def query():
     return render_template("query.html")
+
 
 @app.route("/insert")
 def insert():
     return render_template("insert.html")
+
 
 @app.route("/update")
 def update():
@@ -61,75 +68,85 @@ def airlines():
 
 @app.route('/insertFlight', methods=['POST'])
 def insertFlight():
+    try:
+        document = {
+            "YEAR": int(request.form.get("Year").__str__()),
+            "MONTH": int(request.form.get("Month").__str__()),
+            "DAY": int(request.form.get("Day").__str__()),
+            "AIRLINE": request.form.get("IATA_CODE"),
+            "ORIGIN_AIRPORT": request.form.get("Origin"),
+            "DESTINATION_AIRPORT": request.form.get("Destination"),
+            "AIR_TIME": int(request.form.get("Time").__str__())
+        }
 
-    document = {
-        "YEAR": int(request.form.get("Year").__str__()),
-        "MONTH": int(request.form.get("Month").__str__()),
-        "DAY": int(request.form.get("Day").__str__()),
-        "AIRLINE": request.form.get("IATA_CODE"),
-        "ORIGIN_AIRPORT": request.form.get("Origin"),
-        "DESTINATION_AIRPORT": request.form.get("Destination"),
-        "AIR_TIME": int(request.form.get("Time").__str__())
-    }
+        print(document)
 
-    flights_collection.insert_one(document)
-    return render_template("insert.html", radio=1)
+        flights_collection.insert_one(document)
+        return render_template("insert.html", radio=1)
+    except:
+        return render_template("insert.html", radio=1, message="Fill all the field to insert the document")
 
 
 @app.route('/insertAirport', methods=['POST'])
 def insertAirport():
+    try:
+        document = {
+            "IATA_CODE": request.form.get("IATA_CODE"),
+            "AIRPORT": request.form.get("Name"),
+            "CITY": request.form.get("City"),
+            "STATE": request.form.get("State"),
+            "COUNTRY": request.form.get("Country")
+        }
 
-    document = {
-        "IATA_CODE": request.form.get("IATA_CODE"),
-        "AIRPORT": request.form.get("Name"),
-        "CITY": request.form.get("City"),
-        "STATE": request.form.get("State"),
-        "COUNTRY": request.form.get("Country")
-    }
-
-    airports_collection.insert_one(document)
-    return render_template("insert.html", radio=2)
+        airports_collection.insert_one(document)
+        return render_template("insert.html", radio=2)
+    except:
+        return render_template("insert.html", radio=1, message="Fill all the field to insert the document")
 
 
 @app.route('/insertAirline', methods=['POST'])
 def insertAirline():
+    try:
+        document = {
+            "IATA_CODE": request.form.get("IATA_CODE"),
+            "AIRLINE": request.form.get("Name")
+        }
 
-    document = {
-        "IATA_CODE": request.form.get("IATA_CODE"),
-        "AIRLINE": request.form.get("Name")
-    }
-
-    airlines_collection.insert_one(document)
-    return render_template("insert.html", radio=3)
+        airlines_collection.insert_one(document)
+        return render_template("insert.html", radio=3)
+    except:
+        return render_template("insert.html", radio=1, message="Fill all the field to insert the document")
 
 
 @app.route('/departureSearch', methods=['POST'])
 def departureSearch():
+    try:
+        arrayAnd = []
 
-    arrayAnd = []
+        if request.form.get("Year") != "":
+            arrayAnd.append({"YEAR": int(request.form.get("Year").__str__())})
+        if request.form.get("Month") != "":
+            arrayAnd.append({"MONTH": int(request.form.get("Month").__str__())})
+        if request.form.get("Day") != "":
+            arrayAnd.append({"DAY": int(request.form.get("Day").__str__())})
+        if request.form.get("Origin") != "":
+            arrayAnd.append({"ORIGIN_AIRPORT": request.form.get("Origin").__str__()})
+        if request.form.get("Destination") != "":
+            arrayAnd.append({"DESTINATION_AIRPORT": request.form.get("Destination").__str__()})
 
-    if request.form.get("Year") != "":
-        arrayAnd.append({"YEAR": int(request.form.get("Year").__str__())})
-    if request.form.get("Month") != "":
-        arrayAnd.append({"MONTH": int(request.form.get("Month").__str__())})
-    if request.form.get("Day") != "":
-        arrayAnd.append({"DAY": int(request.form.get("Day").__str__())})
-    if request.form.get("Origin") != "":
-        arrayAnd.append({"ORIGIN_AIRPORT": request.form.get("Origin").__str__()})
-    if request.form.get("Destination") != "":
-        arrayAnd.append({"DESTINATION_AIRPORT": request.form.get("Destination").__str__()})
+        print(arrayAnd)
 
-    print(arrayAnd)
+        query = {'$and': arrayAnd}
 
-    query = {'$and': arrayAnd}
+        # Execute the query
+        flights = list(flights_collection.find(query))
 
-    # Execute the query
-    flights = list(flights_collection.find(query))
-
-    if len(flights) == 0:
-        return render_template("departure.html", message="No flights matched the given parameters")
-    else:
-        return render_template("departure.html", flights=flights, flights_size=len(flights))
+        if len(flights) == 0:
+            return render_template("departure.html", message="No flights matched the given parameters")
+        else:
+            return render_template("departure.html", flights=flights, flights_size=len(flights))
+    except:
+        return render_template("departure.html", message="Fill all the fields")
 
 
 @app.route('/queryFlights', methods=['POST'])
@@ -145,9 +162,11 @@ def queryFlights():
             return render_template("query.html", message="No document match the given query", radio=1)
         else:
             result = list(flights_collection.find(parsed_query))
+            print(result)
             if len(result) > 100:
                 result = result[0:299]
             return render_template("query.html", flights=result, flights_size=len(result), radio=1)
+
 
 @app.route('/queryAirports', methods=['POST'])
 def queryAirports():
@@ -161,10 +180,12 @@ def queryAirports():
         if airports_collection.count_documents(parsed_query) == 0:
             return render_template("query.html", message="No document match the given query", radio=2)
         else:
-            result = list(airports_collection.find(parsed_query))
+            result = list(airports_collection.find(parsed_query))#
+            print(result)
             if len(result) > 100:
                 result = result[0:299]
             return render_template("query.html", airports=result, airports_size=len(result), radio=2)
+
 
 @app.route('/queryAirlines', methods=['POST'])
 def queryAirlines():
@@ -179,7 +200,8 @@ def queryAirlines():
             return render_template("query.html", message="No document match the given query", radio=3)
         else:
             result = list(airlines_collection.find(parsed_query))
-            if len(result) > 100:
+            print(result)
+            if len(result) > 299:
                 result = result[0:299]
             return render_template("query.html", airlines=result, airlines_size=len(result), radio=3)
 
@@ -240,13 +262,18 @@ def idAirport():
     id = request.form.get("ID").__str__()
     # Ricerca dell'ID nella collezione
 
+    document = None
+    if id == "":
+        return render_template("update.html", airport=None, airline=None, flight=document, radio=1, message="ID field empty")
+
     document = airports_collection.find_one({'_id': ObjectId(id)})
 
     # Controllo se il documento è stato trovato
     if document is not None:
         return render_template("update.html", airport=document, airline=None, flight=None, radio=2)
     else:
-        return render_template("update.html", radio=2, airport=document, airline=None, flight=None, message="No document match the given ID")
+        return render_template("update.html", radio=2, airport=document, airline=None, flight=None,
+                               message="No document match the given ID")
 
 
 @app.route('/idAirlines', methods=['POST'])
@@ -255,13 +282,18 @@ def idAirlines():
 
     # Ricerca dell'ID nella collezione
 
+    document = None
+    if id == "":
+        return render_template("update.html", airport=None, airline=None, flight=document, radio=1, message="ID field empty")
+
     document = airlines_collection.find_one({'_id': ObjectId(id)})
 
     # Controllo se il documento è stato trovato
     if document is not None:
         return render_template("update.html", airline=document, airport=None, flight=None, radio=3)
     else:
-        return render_template("update.html", airline=document, airport=None, flight=None, message="No document match the given ID", radio=3)
+        return render_template("update.html", airline=document, airport=None, flight=None,
+                               message="No document match the given ID", radio=3)
 
 
 @app.route('/idFlights', methods=['POST'])
@@ -269,44 +301,50 @@ def idFlights():
     id = request.form.get("ID").__str__()
     # Ricerca dell'ID nella collezione
 
+    document = None
+    if id == "":
+        return render_template("update.html", airport=None, airline=None, flight=document, radio=1, message="ID field empty")
+
     document = flights_collection.find_one({'_id': ObjectId(id)})
     print(id)
     # Controllo se il documento è stato trovato
     if document is not None:
         return render_template("update.html", airport=None, airline=None, flight=document, radio=1)
     else:
-        return render_template("update.html", airport=None, airline=None, flight=document, message="No document match the given ID", radio=1)
+        return render_template("update.html", airport=None, airline=None, flight=document,
+                               message="No document match the given ID", radio=1)
 
 
 @app.route('/updateFlights', methods=['POST'])
 def updateFlight():
 
+    print(request.form.get("id"))
     id = request.form.get("id")
 
     document = {'$set': {
-                            "YEAR": request.form.get("year"),
-                            "MONTH": request.form.get("month"),
-                            "DAY": request.form.get("day"),
-                            "AIRLINE": request.form.get("airline"),
-                            "FLIGHT_NUMBER": request.form.get("flight"),
-                            "TAIL_NUMBER": request.form.get("tail"),
-                            "ORIGIN_AIRPORT": request.form.get("origin"),
-                            "DESTINATION_AIRPORT": request.form.get("destination"),
-                            "SCHEDULED_DEPARTURE": request.form.get("departure"),
-                            "DEPARTURE_TIME": request.form.get("depTime"),
-                            "DEPARTURE_DELAY": request.form.get("depDelay"),
-                            "TAXI_OUT": request.form.get("taxi"),
-                            "WHEELS_OFF": request.form.get("wheels"),
-                            "SCHEDULED_TIME": request.form.get("schedTime"),
-                            "DISTANCE": request.form.get("distance"),
-                            "TAXI_IN": request.form.get("taxiIn"),
-                            "ARRIVAL_TIME": request.form.get("arrTime"),
-                            "DIVERTED": request.form.get("diverted"),
-                            "CANCELLED": request.form.get("cancelled")
-                        }
-                }
+        "YEAR": request.form.get("year"),
+        "MONTH": request.form.get("month"),
+        "DAY": request.form.get("day"),
+        "AIRLINE": request.form.get("airline"),
+        "FLIGHT_NUMBER": request.form.get("flight"),
+        "TAIL_NUMBER": request.form.get("tail"),
+        "ORIGIN_AIRPORT": request.form.get("origin"),
+        "DESTINATION_AIRPORT": request.form.get("destination"),
+        "SCHEDULED_DEPARTURE": request.form.get("departure"),
+        "DEPARTURE_TIME": request.form.get("depTime"),
+        "DEPARTURE_DELAY": request.form.get("depDelay"),
+        "TAXI_OUT": request.form.get("taxi"),
+        "WHEELS_OFF": request.form.get("wheels"),
+        "SCHEDULED_TIME": request.form.get("schedTime"),
+        "DISTANCE": request.form.get("distance"),
+        "TAXI_IN": request.form.get("taxiIn"),
+        "ARRIVAL_TIME": request.form.get("arrTime"),
+        "DIVERTED": request.form.get("diverted"),
+        "CANCELLED": request.form.get("cancelled")
+    }
+    }
 
-    result = flights_collection.update_one( {'_id': ObjectId(id)}, document)
+    result = flights_collection.update_one({'_id': ObjectId(id)}, document)
     print(result)
     if result.modified_count > 0:
         message = "Document updated successfully."
@@ -317,21 +355,20 @@ def updateFlight():
 
 @app.route('/updateAirports', methods=['POST'])
 def updateAirports():
-
     id = request.form.get("id")
 
     document = {'$set': {
-                            "IATA_CODE": request.form.get("IATA_CODE"),
-                            "AIRPORT": request.form.get("Name"),
-                            "CITY": request.form.get("City"),
-                            "STATE": request.form.get("State"),
-                            "COUNTRY": request.form.get("Country"),
-                            "LATITUDE": request.form.get("Latitude"),
-                            "LONGITUDE": request.form.get("Longitude")
-                        }
-                }
+        "IATA_CODE": request.form.get("IATA_CODE"),
+        "AIRPORT": request.form.get("Name"),
+        "CITY": request.form.get("City"),
+        "STATE": request.form.get("State"),
+        "COUNTRY": request.form.get("Country"),
+        "LATITUDE": request.form.get("Latitude"),
+        "LONGITUDE": request.form.get("Longitude")
+    }
+    }
 
-    result = airports_collection.update_one( {'_id': ObjectId(id)}, document)
+    result = airports_collection.update_one({'_id': ObjectId(id)}, document)
 
     if result.modified_count > 0:
         message = "Document updated successfully."
@@ -342,15 +379,14 @@ def updateAirports():
 
 @app.route('/updateAirlines', methods=['POST'])
 def updateAirlines():
-
     id = request.form.get("id")
     document = {'$set': {
-                            "IATA_CODE": request.form.get("IATA_CODE"),
-                            "AIRLINE": request.form.get("Name")
-                        }
-                }
+        "IATA_CODE": request.form.get("IATA_CODE"),
+        "AIRLINE": request.form.get("Name")
+    }
+    }
 
-    result = airlines_collection.update_one( {'_id': ObjectId(id)}, document)
+    result = airlines_collection.update_one({'_id': ObjectId(id)}, document)
     if result.modified_count > 0:
         message = "Document updated successfully."
     else:

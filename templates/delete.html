@@ -36,7 +36,7 @@
   </script>
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="background-color: #3b71ca;">
-        <a style="margin-left: 1em" class="navbar-brand" href={{url_for("query")}}>
+        <a style="margin-left: 1em" class="navbar-brand" href={{url_for("homepage")}}>
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
             FlightsDB
         </a>
@@ -53,8 +53,13 @@
         </div>
     </nav>
 
-    <div class="bg-white">
-        <div class="btn-group d-flex align-self-center" style="margin-inline: 35em; margin-top: 5em">
+        <div class="bg-white text-center" id="messageDiv" style="margin-top: 2.5em; color: #3b71ca">
+            <h1>Delete</h1>
+            <h6>Delete a document in the corresponding collection giving your query</h6>
+        </div>
+
+          <div class="bg-white" style="margin-top: 3em">
+        <div class="btn-group d-flex align-self-center" style="margin-inline: 40em">
             <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" {% if radio == 1 or radio is undefined%} checked {% endif %} />
             <label class="btn btn-secondary" for="1">Flights</label>
 
@@ -67,37 +72,40 @@
 
         <section class="pb-4" style="margin-inline: 15em;">
             <div class="forms">
-                <section class="p-4 text-center pb-4">
+                <section class="p-4 text-center pb-4" style="margin-inline: 15em;">
                     <div class="form-outline bg-white text-center">
 
                         <form id="formQuery1" method="POST">
                           <div class="form-outline">
-                            <textarea type="text" id="query" name="query" class="form-control"></textarea>
+                            <input type="text" id="query" name="query" class="form-control active"></input>
                             <label class="form-label" for="query" style="margin-left: 0px;">{"field" : "value"}</label>
                             <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
                           </div>
-                          <input type="submit" formaction="/deleteFlight" class="btn btn-primary btn-block mb-4">
+                          <input type="submit" formaction="/deleteFlight" class="btn btn-primary btn-block mb-4" value="Send">
                         </form>
 
                         <form id="formQuery2" method="POST" style="display:none;">
                           <div class="form-outline">
-                            <textarea type="text" id="query" name="query" class="form-control"></textarea>
+                            <input type="text" id="query" name="query" class="form-control active"></input>
                             <label class="form-label" for="query" style="margin-left: 0px;">{"field" : "value"}</label>
                             <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
                           </div>
-                          <input type="submit" formaction="/deleteAirport" class="btn btn-primary btn-block mb-4">
+                          <input type="submit" formaction="/deleteAirport" class="btn btn-primary btn-block mb-4" value="Send">
                         </form>
 
                         <form id="formQuery3" method="POST" style="display:none;">
                         <div class="form-outline">
-                          <textarea type="text" id="query" name="query" class="form-control"></textarea>
+                          <input type="text" id="query" name="query" class="form-control active"></input>
                           <label class="form-label" for="query" style="margin-left: 0px;">{"field" : "value"}</label>
                           <div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 110px;"></div><div class="form-notch-trailing"></div></div>
                         </div>
-                        <input type="submit" formaction="/deleteAirline" class="btn btn-primary btn-block mb-4">
+                        <input type="submit" formaction="/deleteAirline" class="btn btn-primary btn-block mb-4" value="Send">
                         </form>
 
-                        <h3 id="message">  {{ message }}</h3>
+
+                        <div class="bg-white text-center" id="messageDiv">
+                            <h3 id="message">  {{ message }}</h3>
+                        </div>
                     </div>
                 </section>
             </div>
