@@ -132,8 +132,6 @@ def departureSearch():
         if request.form.get("Destination") != "":
             arrayAnd.append({"DESTINATION_AIRPORT": request.form.get("Destination").__str__()})
 
-        print(arrayAnd)
-
         query = {'$and': arrayAnd}
 
         # Execute the query
@@ -160,10 +158,10 @@ def queryFlights():
             return render_template("query.html", message="No document match the given query", radio=1)
         else:
             result = list(flights_collection.find(parsed_query))
-            print(result)
-            if len(result) > 100:
+            result_lenght = len(result)
+            if result_lenght > 100:
                 result = result[0:299]
-            return render_template("query.html", flights=result, flights_size=len(result), radio=1)
+            return render_template("query.html", flights=result, flights_size=result_lenght, radio=1)
 
 
 @app.route('/queryAirports', methods=['POST'])
@@ -178,11 +176,11 @@ def queryAirports():
         if airports_collection.count_documents(parsed_query) == 0:
             return render_template("query.html", message="No document match the given query", radio=2)
         else:
-            result = list(airports_collection.find(parsed_query))#
-            print(result)
+            result = list(airports_collection.find(parsed_query))
+            result_lenght = len(result)
             if len(result) > 100:
                 result = result[0:299]
-            return render_template("query.html", airports=result, airports_size=len(result), radio=2)
+            return render_template("query.html", airports=result, airports_size=result_lenght, radio=2)
 
 
 @app.route('/queryAirlines', methods=['POST'])
@@ -198,10 +196,10 @@ def queryAirlines():
             return render_template("query.html", message="No document match the given query", radio=3)
         else:
             result = list(airlines_collection.find(parsed_query))
-            print(result)
+            result_lenght = len(result)
             if len(result) > 299:
                 result = result[0:299]
-            return render_template("query.html", airlines=result, airlines_size=len(result), radio=3)
+            return render_template("query.html", airlines=result, airlines_size=result_lenght, radio=3)
 
 
 @app.route('/deleteFlight', methods=['POST'])
@@ -315,8 +313,6 @@ def idFlights():
 
 @app.route('/updateFlights', methods=['POST'])
 def updateFlight():
-
-    print(request.form.get("id"))
     id = request.form.get("id")
 
     document = {'$set': {

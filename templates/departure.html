@@ -3,7 +3,78 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <title>Flight Search</title>
+    <title>Departure/Destination</title>
+    <style>
+        #snackbar {
+          visibility: hidden; /* Hidden by default. Visible on click */
+          min-width: 250px; /* Set a default minimum width */
+          margin-left: -125px; /* Divide value of min-width by 2 */
+          background-color: #3b71ca; /* Black background color */
+          color: #fff; /* White text color */
+          text-align: center; /* Centered text */
+          border-radius: 2px; /* Rounded borders */
+          padding: 16px; /* Padding */
+          position: fixed; /* Sit on top of the screen */
+          z-index: 1; /* Add a z-index if needed */
+          left: 50%; /* Center the snackbar */
+          bottom: 30px; /* 30px from the bottom */
+        }
+
+        #snackbar.show {
+          visibility: visible; /* Show the snackbar */
+          /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+          However, delay the fade out process for 2.5 seconds */
+          -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+          animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        @-webkit-keyframes fadein {
+          from {bottom: 0; opacity: 0;}
+          to {bottom: 30px; opacity: 1;}
+        }
+
+        @keyframes fadein {
+          from {bottom: 0; opacity: 0;}
+          to {bottom: 30px; opacity: 1;}
+        }
+
+        @-webkit-keyframes fadeout {
+          from {bottom: 30px; opacity: 1;}
+          to {bottom: 0; opacity: 0;}
+        }
+
+        @keyframes fadeout {
+          from {bottom: 30px; opacity: 1;}
+          to {bottom: 0; opacity: 0;}
+        }
+    </style>
+
+    <script>
+      $(document).ready(function() {
+        const table = document.getElementById('myTable');
+        const rows = table.getElementsByTagName('tr');
+
+        Array.from(rows).forEach((row, index) => {
+          row.addEventListener('click', () => {
+            const cells = row.getElementsByTagName('td');
+            navigator.clipboard.writeText(row.getAttribute("name"));
+            myFunction();
+            //alert("Copied the text: " + row.getAttribute("name"));
+            });
+          });
+        });
+
+        function myFunction() {
+        // Get the snackbar DIV
+        var x = document.getElementById("snackbar");
+
+        // Add the "show" class to DIV
+        x.className = "show";
+
+        // After 3 seconds, remove the show class from DIV
+        setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+        }
+    </script>
   </head>
 
   <body>
@@ -45,7 +116,7 @@
 
           <div class="bg-white" style="margin-top: 3em">
             <section class="pb-4">
-              <div class="forms">
+              <div class="forms" style="margin-inline: 20em">
                   <section class="w-100 p-4 text-center pb-4">
 
                     <form id="content1" method="POST">
@@ -97,7 +168,7 @@
               <h3>Flights found: {{ flights_size }}</h3>
               <div class="bg-white border rounded-5">
                 <section class="w-100 p-4 text-center">
-                  <table class="table table-striped table-responsive">
+                  <table class="table table-striped table-responsive" id="myTable">
                     <thead>
                       <tr>
                             <th scope="col"><strong>Year</strong></th>
@@ -123,7 +194,7 @@
                     </thead>
                     <tbody>
                     {% for flight in flights %}
-                      <tr>
+                      <tr id="row" name="{{ flight._id }}">
                         <td>{{ flight.YEAR }}</td>
                         <td>{{ flight.MONTH }}</td>
                         <td>{{ flight.DAY }}</td>
