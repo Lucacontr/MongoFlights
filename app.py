@@ -1,7 +1,5 @@
-import json
 from bson.json_util import loads
 from bson.errors import BSONError
-import bson
 from bson import ObjectId
 from flask import Flask, render_template, request
 import pymongo
