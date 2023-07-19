@@ -58,7 +58,7 @@
             <img src="static/plane.png" width="30" height="30" class="d-inline-block align-top" alt="">
             FlightsDB
         </a>
-        <div class="container-fluid" id="navbarNavAltMarkup" style="margin-left: 30em;">
+        <div class="container-fluid" id="navbarNavAltMarkup" style="margin-left: 20em;">
             <div class="navbar-nav">
               <strong><a class="nav-item nav-link" href={{url_for("query")}}>Query</a></strong>
               <strong><a class="nav-item nav-link" href={{url_for("insert")}}>Insert</a></strong>
@@ -77,7 +77,7 @@
         </div>
 
     <div class="bg-white" style="margin-top: 3em">
-        <div class="btn-group d-flex align-self-center" style="margin-inline: 40em">
+        <div class="btn-group d-flex align-self-center" style="margin-inline: 35em">
             <input type="radio" class="btn-check" name="options" id="1" value="1" autocomplete="off" {% if radio == 1 or radio is undefined%} checked {% endif %} />
             <label class="btn btn-secondary" for="1">Flights</label>
 
